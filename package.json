@@ -1,10 +1,10 @@
 {
-  "name": "github-example-app",
+  "name": "handshake-zapier",
   "version": "1.0.0",
-  "description": "An example app for the Zapier platform.",
-  "repository": "zapier/zapier-platform-app-github-example",
-  "homepage": "https://zapier.com/developer",
-  "author": "Zane Lyon <zane.lyon@zapier.com>",
+  "description": "Handshake app for the Zapier platform.",
+  "repository": "handshake/handshake-zapier",
+  "homepage": "https://handshake.com",
+  "author": "Conal Scanlon <conal.scanlon@handshake.com>",
   "license": "BSD-3-Clause",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,8 @@
   "devDependencies": {
     "mocha": "3.2.0",
     "should": "11.2.1"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --recursive --timeout 15000"
   }
 }

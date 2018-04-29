@@ -1,6 +1,9 @@
 const repoTrigger = require('./triggers/repo');
 const issueCreate = require('./creates/issue');
 const issueTrigger = require('./triggers/issue');
+const customer = require('./triggers/customer');
+const customerCreate = require('./creates/customer');
+const customerGroup = require('./triggers/customer_group');
 const authentication = require('./authentication');
 
 const handleHTTPError = (response, z) => {
@@ -8,6 +11,12 @@ const handleHTTPError = (response, z) => {
     throw new Error(`Unexpected status code ${response.status}`);
   }
   return response;
+};
+
+const addApiKeyToHeader = (request, z, bundle) => {
+  const basicHash = Buffer(`${bundle.authData.apiKey}:X`).toString('base64');
+  request.headers.Authorization = `Basic ${basicHash}`;
+  return request;
 };
 
 const App = {
@@ -18,8 +27,7 @@ const App = {
   authentication: authentication,
 
   // beforeRequest & afterResponse are optional hooks into the provided HTTP client
-  beforeRequest: [
-  ],
+  beforeRequest: [addApiKeyToHeader],
 
   afterResponse: [
     handleHTTPError
@@ -31,8 +39,21 @@ const App = {
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [repoTrigger.key]: repoTrigger,
-    [issueTrigger.key]: issueTrigger,
+    [customer.key]: customer,
+    [customerGroup.key]: customerGroup
+    // new_customer: {
+    //   key: 'new_customer',
+    //   noun: 'Customer',
+    //   display: {
+    //     label: 'New Customer',
+    //     description: 'Triggers when a new customer is added'
+    //   },
+    //   operation: {
+    //     perform: customerTrigger.triggerCustomer
+    //   }
+    // }
+    // [newOrderTrigger.key]: newOrderTrigger,
+    // [updatedOrderTrigger.key]: updatedOrderTrigger,
   },
 
   // If you want your searches to show up, you better include it here!
@@ -41,7 +62,7 @@ const App = {
 
   // If you want your creates to show up, you better include it here!
   creates: {
-    [issueCreate.key]: issueCreate,
+    [customerCreate.key]: customerCreate,
   }
 };
 

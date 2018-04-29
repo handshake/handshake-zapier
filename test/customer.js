@@ -6,27 +6,19 @@ const zapier = require('zapier-platform-core');
 const App = require('../index');
 const appTester = zapier.createAppTester(App);
 
-const REPO = 'username/reponame' // CHANGE THIS
-
 //These are automated tests for the Issue create and Issue Trigger.
 //They will run every time the `zapier test` command is executed.
-describe('issue trigger', () => {
+describe('customer trigger', () => {
   zapier.tools.env.inject();
 
   // Make sure there's an open issue to fetch here!
-  it('should get an issue', (done) => {
+  it('should get a customer', (done) => {
     const bundle = {
       authData: {
-        username: process.env.TEST_USERNAME,
-        password: process.env.TEST_PASSWORD
-      },
-      inputData: {
-        filter: 'all',
-        state: 'all',
-        repo: REPO
+        apiKey: process.env.TEST_APIKEY
       }
     };
-    appTester(App.triggers.issue.operation.perform, bundle)
+    appTester(App.triggers.customer.operation.perform, bundle)
       .then((response) => {
         response.should.be.an.instanceOf(Array);
         done();
@@ -34,21 +26,20 @@ describe('issue trigger', () => {
       .catch(done);
   });
 
-  it('should create an issue', (done) => {
+  it('should create a customer', (done) => {
     const bundle = {
       authData: {
-        username: process.env.TEST_USERNAME,
-        password: process.env.TEST_PASSWORD
+        apiKey: process.env.TEST_APIKEY,
       },
       inputData: {
-        repo: REPO,
-        title: 'Test Issue',
-        body: 'This is a test issue created from an automated test for the Zapier GitHub Example App'
+        id: '123',
+        name: 'Zapier',
+        contact: 'Zapier test',
+        email: 'zapier@test.com'
       }
     };
-    appTester(App.creates.issue.operation.perform, bundle)
+    appTester(App.creates.customer.operation.perform, bundle)
       .then((response) => {
-
         done();
       })
       .catch(done);
