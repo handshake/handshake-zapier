@@ -1,9 +1,9 @@
 const sample = require('../samples/sample_customer');
 
-const triggerCustomer = (z, bundle) => {
+const pollingCustomer = (z, bundle) => {
   const responsePromise = z.request({
     method: 'GET',
-    url: `https://app.handshake.com/api/latest/customers`,
+    url: `https://glen.dev.handshake.com/api/latest/customers`,
     params: {
       sort_by: '-ctime'
     }
@@ -11,6 +11,49 @@ const triggerCustomer = (z, bundle) => {
   return responsePromise
     .then(response => z.JSON.parse(response.content).objects);
 };
+
+const subscribeHook = (z, bundle) => {
+  const data = {
+    url: bundle.targetUrl,
+    event: bundle.event
+  }
+
+  const options = {
+    url: 'http://glen.dev.handshake.com/webooks/zapier',
+    method: 'POST',
+    body: JSON.stringify(data)
+  }
+
+  return z.request(options)
+    .then((response) => JSON.parse(response.content));
+};
+
+const unsubscribeHook = (z, bundle) => {
+  const hookId = bundle.subscribeData.uuid;
+
+  const options = {
+    url: 'http://glen.dev.handshake.com/webooks/zapier/${hookId}',
+    method: 'DELETE'
+  };
+
+  return z.request(options)
+    .then((response) => JSON.parse(response.content));
+
+};
+
+const getCustomer = (z, bundle) => {
+  const customer = {
+    id: bundle.inputData.id,
+    name:  bundle.inputData.name,
+    email:  bundle.inputData.email,
+    contact:  bundle.inputData.contact,
+    paymentTerms:  bundle.inputData.paymentTerms,
+    shippingMethod:  bundle.inputData.shippingMethod,
+
+  };
+
+  return [customer];
+}
 
 module.exports = {
   key: 'customer',
@@ -22,8 +65,13 @@ module.exports = {
   },
 
   operation: {
+    type: hook,
+    performSubscribe: subscribeHook,
+    performUnsubscribe: unsubscribeHook,
+
     inputFields: [],
-    perform: triggerCustomer,
+    perform: getCustomer,
+    performList: pollingCustomer,
 
     sample: sample
   }

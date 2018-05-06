@@ -16,7 +16,8 @@ describe('basic authentication', () => {
   it('should authenticate', (done) => {
     const bundle = {
       authData: {
-        apiKey: process.env.TEST_APIKEY,
+        // apiKey: process.env.TEST_APIKEY,
+        apiKey: process.env.TEST_APIKEY_GLENDEV,
         //password: process.env.TEST_PASSWORD
       }
     };
