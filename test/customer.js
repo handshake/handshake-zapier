@@ -12,7 +12,7 @@ describe('customer trigger', () => {
   zapier.tools.env.inject();
 
 
-  it('should get a customer', (done) => {
+  it('should get a customer from a fake hook', (done) => {
     const bundle = {
       authData: {
         apiKey: process.env.TEST_APIKEY
@@ -23,7 +23,7 @@ describe('customer trigger', () => {
         email:  "zapier@handshake.com",
         contact:  "Zapier Conact",
         paymentTerms:  "NET30",
-        shippingMethod: "FEXEX"
+        shippingMethod: "FEDEX"
       }
     };
     appTester(App.triggers.customer.operation.perform, bundle)
@@ -31,14 +31,15 @@ describe('customer trigger', () => {
         response.length.should.eql(1);
         response.should.be.an.instanceOf(Array);
         
-        const customer = response[0];
+        const customerHook = response[0];
+        console.log(customerHook);
 
-        customer.id.should.eq(123);
-        customer.name.should.eq("Zapier Customer");
-        customer.email.should.eq("zapier@handshake.com");
-        customer.contact.should.eq("Zapier Conact");
-        customer.paymentTerms.should.eq("NET30");
-        customer.shippingMethod.should.eq("FEDEX");
+        customerHook.id.should.eql(123);
+        customerHook.name.should.eql("Zapier Customer");
+        customerHook.email.should.eql("zapier@handshake.com");
+        customerHook.contact.should.eql("Zapier Conact");
+        customerHook.paymentTerms.should.eql("NET30");
+        customerHook.shippingMethod.should.eql("FEDEX");
 
         done();
       })
@@ -50,14 +51,15 @@ describe('customer trigger', () => {
       authData: {
         apiKey: process.env.TEST_APIKEY
       }
+    };
 
-      appTester(App.triggers.customer.operation.performList, bundle)
-        .then((response) => {
-          response.length.should.be.greaterThan(1);
+    appTester(App.triggers.customer.operation.performList, bundle)
+      .then((response) => {
+        response.length.should.be.greaterThan(1);
 
-          done();
-        })
-        .catch(done);
+        done();
+      })
+      .catch(done);
   });
 
   it('should create a customer', (done) => {

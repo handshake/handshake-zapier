@@ -4,7 +4,8 @@ const customerGroup = require('../triggers/customer_group');
 const createCustomer = (z, bundle) => {
   const responsePromise = z.request({
     method: 'POST',
-    url: `https://app.handshake.com/api/latest/customers`,
+    // TODO: change back to app. before merging
+    url: `https://glen.dev.handshake.com/api/latest/customers`,
     body: JSON.stringify({
       id: bundle.inputData.name,
       name: bundle.inputData.name,

@@ -9,7 +9,7 @@ const testAuth = (z /*, bundle*/) => {
   // This method can return any truthy value to indicate the credentials are valid.
   // Raise an error to show
   return z.request({
-      url: 'https://app.handshake.com/api/latest/orders?limit=1',
+      url: 'https://glen.dev.handshake.com/api/latest/orders?limit=1',
     }).then((response) => {
       if (response.status === 401) {
         throw new Error('The API Key you supplied is invalid');

@@ -18,7 +18,8 @@ describe('order update', () => {
         apiKey: process.env.TEST_APIKEY
       },
       inputData: {
-        id: '142',
+        // id: '142',
+        id: '141',
         new_status: 'Complete'
       }
     };

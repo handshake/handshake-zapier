@@ -3,7 +3,7 @@ const sample = require('../samples/sample_customer_group');
 const getCustomerGroup = (z, bundle) => {
   const responsePromise = z.request({
     method: 'GET',
-    url: `https://app.handshake.com/api/latest/customer_groups`,
+    url: `https://glen.dev.handshake.com/api/latest/customer_groups`,
   });
   return responsePromise
     .then(response => z.JSON.parse(response.content).objects);

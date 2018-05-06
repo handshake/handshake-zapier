@@ -43,12 +43,12 @@ const unsubscribeHook = (z, bundle) => {
 
 const getCustomer = (z, bundle) => {
   const customer = {
-    id: bundle.inputData.id,
-    name:  bundle.inputData.name,
-    email:  bundle.inputData.email,
-    contact:  bundle.inputData.contact,
-    paymentTerms:  bundle.inputData.paymentTerms,
-    shippingMethod:  bundle.inputData.shippingMethod,
+    id: bundle.cleanedRequest.id,
+    name:  bundle.cleanedRequest.name,
+    email:  bundle.cleanedRequest.email,
+    contact:  bundle.cleanedRequest.contact,
+    paymentTerms:  bundle.cleanedRequest.paymentTerms,
+    shippingMethod:  bundle.cleanedRequest.shippingMethod,
 
   };
 
@@ -65,7 +65,7 @@ module.exports = {
   },
 
   operation: {
-    type: hook,
+    type: 'hook',
     performSubscribe: subscribeHook,
     performUnsubscribe: unsubscribeHook,
 
