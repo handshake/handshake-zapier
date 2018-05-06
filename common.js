@@ -1,4 +1,8 @@
+const BASE_URL = "https://glen.dev.handshake.com";
+
 // Common settings across the app
 module.exports = {
-    baseURL: "https://app.handshake.com"
+    baseURL: BASE_URL,
+    hookURL: BASE_URL + "/webhooks/zapier",
+    apiURL: BASE_URL + "/api/v3",
 };
