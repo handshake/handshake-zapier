@@ -1,4 +1,4 @@
-const common = require("../common");
+const triggers_common = require("./common");
 
 /**
  *  Triggers on order created using standard order hook payload.
@@ -7,53 +7,6 @@ const onHookReceived = (z, bundle) => {
     // Wrap the dict the Handshake API returns for a detail URL
     return z.request({url: bundle.cleanedRequest.api_url})
         .then(response => [z.JSON.parse(response.content)]);
-};
-
-/**
- *  Create a new webhook subscription with the Handshake server.
- */
-const subscribeHook = (z, bundle) => {
-    const options = {
-        url: common.hookURL,
-        method: "POST",
-        body: JSON.stringify({
-            target_url: bundle.targetUrl,
-            event: module.exports.key,
-        }),
-    };
-
-    return z.request(options)
-        .then((response) => JSON.parse(response.content));
-};
-
-/**
- *  Delete an existing webhook subscription on the Handshake server.
- */
-const unsubscribeHook = (z, bundle) => {
-    const options = {
-        url: common.hookURL,
-        method: "DELETE",
-        body: {target_url: bundle.targetUrl},
-    };
-
-    // The response for a 200 OK doesn't contain any data
-    return z.request(options)
-        .then((response) => []);
-};
-
-/**
- *  Poll the server to get sample data during Zap authoring.
- */
-const poll = (z, bundle) => {
-    const options = {
-        url: `${ common.apiURL }/orders`,
-        params: {
-            limit: 1,
-        }
-    };
-
-    return z.request(options)
-        .then((response) => z.JSON.parse(response.content)["objects"]);
 };
 
 module.exports = {
@@ -69,11 +22,12 @@ module.exports = {
         inputFields: [
 
         ],
+
         type: "hook",
 
-        performSubscribe: subscribeHook,
-        performUnsubscribe: unsubscribeHook,
-        performList: poll,
+        performSubscribe: triggers_common.make_performSubscribe("order_created"),
+        performUnsubscribe: triggers_common.unsubscribeHook,
+        performList: triggers_common.make_performList("orders"),
         perform: onHookReceived,
 
         sample: {
