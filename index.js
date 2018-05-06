@@ -1,8 +1,8 @@
-const customer = require('./triggers/customer');
-const customerCreate = require('./creates/customer');
-const customerGroup = require('./triggers/customer_group');
-const authentication = require('./authentication');
-const order = require('./creates/order');
+const customer = require("./triggers/customer");
+const customerCreate = require("./creates/customer");
+const customerGroup = require("./triggers/customer_group");
+const authentication = require("./authentication");
+const order = require("./creates/order");
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -12,7 +12,7 @@ const handleHTTPError = (response, z) => {
 };
 
 const addApiKeyToHeader = (request, z, bundle) => {
-    const basicHash = Buffer(`${bundle.authData.apiKey}:X`).toString('base64');
+    const basicHash = Buffer(`${bundle.authData.apiKey}:X`).toString("base64");
     request.headers.Authorization = `Basic ${basicHash}`;
     return request;
 };
@@ -20,8 +20,8 @@ const addApiKeyToHeader = (request, z, bundle) => {
 const App = {
     // This is just shorthand to reference the installed dependencies you have. Zapier will
     // need to know these before we can upload
-    version: require('./package.json').version,
-    platformVersion: require('zapier-platform-core').version,
+    version: require("./package.json").version,
+    platformVersion: require("zapier-platform-core").version,
     authentication: authentication,
 
     // beforeRequest & afterResponse are optional hooks into the provided HTTP client
@@ -40,11 +40,11 @@ const App = {
         [customer.key]: customer,
         [customerGroup.key]: customerGroup
         // new_customer: {
-        //   key: 'new_customer',
-        //   noun: 'Customer',
+        //   key: "new_customer",
+        //   noun: "Customer",
         //   display: {
-        //     label: 'New Customer',
-        //     description: 'Triggers when a new customer is added'
+        //     label: "New Customer",
+        //     description: "Triggers when a new customer is added"
         //   },
         //   operation: {
         //     perform: customerTrigger.triggerCustomer
