@@ -1,9 +1,9 @@
-const OrderCreatedTrigger = require('./triggers/order_created');
 const customer = require("./triggers/customer");
 const customerCreate = require("./creates/customer");
 const customerGroup = require("./triggers/customer_group");
 const authentication = require("./authentication");
 const order = require("./creates/order");
+const orderTriggers = require('./triggers/order');
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -40,20 +40,9 @@ const App = {
     triggers: {
         [customer.key]: customer,
         [customerGroup.key]: customerGroup,
-        [OrderCreatedTrigger.key]: OrderCreatedTrigger,
-        // new_customer: {
-        //   key: "new_customer",
-        //   noun: "Customer",
-        //   display: {
-        //     label: "New Customer",
-        //     description: "Triggers when a new customer is added"
-        //   },
-        //   operation: {
-        //     perform: customerTrigger.triggerCustomer
-        //   }
-        // }
-        // [newOrderTrigger.key]: newOrderTrigger,
-        // [updatedOrderTrigger.key]: updatedOrderTrigger,
+        [orderTriggers.order_created.key]: orderTriggers.order_created,
+        [orderTriggers.order_updated.key]: orderTriggers.order_updated,
+        [orderTriggers.order_status_changed.key]: orderTriggers.order_status_changed,
     },
 
     // If you want your searches to show up, you better include it here!
