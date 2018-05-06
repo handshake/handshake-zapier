@@ -6,7 +6,7 @@ const createCustomer = (z, bundle) => {
     method: 'POST',
     url: `https://app.handshake.com/api/latest/customers`,
     body: JSON.stringify({
-      id: bundle.inputData.name,
+      id: bundle.inputData.id,
       name: bundle.inputData.name,
       contact: bundle.inputData.contact,
       email: bundle.inputData.email
