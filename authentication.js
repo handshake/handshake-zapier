@@ -1,5 +1,5 @@
 'use strict';
-
+const common = require("./common");
 
 const testAuth = (z /*, bundle*/) => {
   // Normally you want to make a request to an endpoint that is either specifically designed to test auth, or one that
@@ -9,7 +9,7 @@ const testAuth = (z /*, bundle*/) => {
   // This method can return any truthy value to indicate the credentials are valid.
   // Raise an error to show
   return z.request({
-      url: 'https://app.handshake.com/api/latest/orders?limit=1',
+      url: `${common.baseURL}/api/latest/orders?limit=1`,
     }).then((response) => {
       if (response.status === 401) {
         throw new Error('The API Key you supplied is invalid');

@@ -1,10 +1,11 @@
 const sample = require('../samples/sample_customer');
 const customerGroup = require('../triggers/customer_group');
+const common = require("../common");
 
 const createCustomer = (z, bundle) => {
   const responsePromise = z.request({
     method: 'POST',
-    url: `https://app.handshake.com/api/latest/customers`,
+    url: `${common.baseURL}/api/latest/customers`,
     body: JSON.stringify({
       id: bundle.inputData.id,
       name: bundle.inputData.name,

@@ -1,9 +1,10 @@
 const sample = require('../samples/sample_customer');
+const common = require("../common");
 
 const triggerCustomer = (z, bundle) => {
   const responsePromise = z.request({
     method: 'GET',
-    url: `https://app.handshake.com/api/latest/customers`,
+    url: `${common.baseURL}/api/latest/customers`,
     params: {
       sort_by: '-ctime'
     }
