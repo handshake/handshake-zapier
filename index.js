@@ -1,3 +1,4 @@
+const OrderCreatedTrigger = require('./triggers/order_created');
 const customer = require("./triggers/customer");
 const customerCreate = require("./creates/customer");
 const customerGroup = require("./triggers/customer_group");
@@ -38,7 +39,8 @@ const App = {
     // If you want your trigger to show up, you better include it here!
     triggers: {
         [customer.key]: customer,
-        [customerGroup.key]: customerGroup
+        [customerGroup.key]: customerGroup,
+        [OrderCreatedTrigger.key]: OrderCreatedTrigger,
         // new_customer: {
         //   key: "new_customer",
         //   noun: "Customer",
