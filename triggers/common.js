@@ -48,7 +48,7 @@ const unsubscribeHook = (z, bundle) => {
 /**
  *  Returns a function that can be used for the `performList` in a trigger.
  */
-const make_performList = (resourceName) => {
+const make_performList = (resourceName, apiToHookFunc) => {
     /**
      *  Poll the server to get sample data during Zap authoring.
      */
@@ -61,7 +61,10 @@ const make_performList = (resourceName) => {
         };
 
         return z.request(options)
-            .then((response) => z.JSON.parse(response.content)["objects"]);
+            .then((response) => {
+                const data = z.JSON.parse(response.content)["objects"][0];
+                return [apiToHookFunc(data)];
+            });
     };
 
     return poll;
