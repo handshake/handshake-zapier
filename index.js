@@ -1,9 +1,10 @@
+const OrderResource = require('./resources/order');
 const authentication = require("./authentication");
-const customerCreate = require("./creates/customer");
-const customerGroupTrigger = require("./triggers/customer_group");
-const orderCreate = require("./creates/order");
-const orderTriggers = require("./triggers/order");
-const customerTriggers = require("./triggers/customer");
+const CustomerCreate = require("./creates/customer");
+const CustomerGroupTrigger = require("./triggers/customer_group");
+const OrderCreate = require("./creates/order");
+const OrderTriggers = require("./triggers/order");
+const CustomerTriggers = require("./triggers/customer");
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -34,16 +35,17 @@ const App = {
 
     // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!
     resources: {
+        [OrderResource.key]: OrderResource,
     },
 
     // If you want your trigger to show up, you better include it here!
     triggers: {
-        [customerTriggers.customer_created.key]: customerTriggers.customer_created,
-        [customerTriggers.customer_updated.key]: customerTriggers.customer_updated,
-        [orderTriggers.order_created.key]: orderTriggers.order_created,
-        [orderTriggers.order_updated.key]: orderTriggers.order_updated,
-        [orderTriggers.order_status_changed.key]: orderTriggers.order_status_changed,
-        [customerGroupTrigger.key]: customerGroupTrigger,
+        [CustomerTriggers.customer_created.key]: CustomerTriggers.customer_created,
+        [CustomerTriggers.customer_updated.key]: CustomerTriggers.customer_updated,
+        [OrderTriggers.order_created.key]: OrderTriggers.order_created,
+        [OrderTriggers.order_updated.key]: OrderTriggers.order_updated,
+        [OrderTriggers.order_status_changed.key]: OrderTriggers.order_status_changed,
+        [CustomerGroupTrigger.key]: CustomerGroupTrigger,
     },
 
     // If you want your searches to show up, you better include it here!
@@ -52,8 +54,8 @@ const App = {
 
     // If you want your creates to show up, you better include it here!
     creates: {
-        [customerCreate.key]: customerCreate,
-        [orderCreate.key]: orderCreate,
+        [CustomerCreate.key]: CustomerCreate,
+        // [OrderCreate.key]: OrderCreate,
     }
 };
 
