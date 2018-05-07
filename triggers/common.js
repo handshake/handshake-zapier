@@ -46,6 +46,14 @@ const unsubscribeHook = (z, bundle) => {
 
 
 /**
+ *  Just return the hook payload whenever one arrives.  Reaching back out to API is expensive.
+ */
+const onHookReceived = (z, bundle) => {
+    return [bundle.cleanedRequest];
+};
+
+
+/**
  *  Returns a function that can be used for the `performList` in a trigger.
  */
 const make_performList = (resourceName, apiToHookFunc) => {
@@ -70,8 +78,42 @@ const make_performList = (resourceName, apiToHookFunc) => {
     return poll;
 };
 
+/**
+ *  Generate a trigger.
+ */
+const makeTrigger = (resourceName, eventType, label, desc, apiToHookFunc) => {
+    return {
+        key: eventType,
+        noun: label,
+
+        display: {
+            label: label,
+            description: desc,
+        },
+
+        operation: {
+            inputFields: [
+            ],
+
+            type: "hook",
+
+            performSubscribe: make_performSubscribe(eventType),
+            performUnsubscribe: unsubscribeHook,
+            performList: make_performList(resourceName, apiToHookFunc),
+            perform: onHookReceived,
+
+            sample: {
+                uuid: 1,
+                name: "Test"
+            },
+
+            outputFields: [
+            ]
+        }
+    };
+};
+
+
 module.exports = {
-    make_performSubscribe: make_performSubscribe,
-    make_performList: make_performList,
-    unsubscribeHook: unsubscribeHook,
+    makeTrigger: makeTrigger,
 };

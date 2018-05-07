@@ -1,9 +1,9 @@
-const customer = require("./triggers/customer");
-const customerCreate = require("./creates/customer");
-const customerGroup = require("./triggers/customer_group");
 const authentication = require("./authentication");
-const order = require("./creates/order");
-const orderTriggers = require('./triggers/order');
+const customerCreate = require("./creates/customer");
+const customerGroupTrigger = require("./triggers/customer_group");
+const orderCreate = require("./creates/order");
+const orderTriggers = require("./triggers/order");
+const customerTriggers = require("./triggers/customer");
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -38,11 +38,12 @@ const App = {
 
     // If you want your trigger to show up, you better include it here!
     triggers: {
-        [customer.key]: customer,
-        [customerGroup.key]: customerGroup,
+        [customerTriggers.customer_created.key]: customerTriggers.customer_created,
+        [customerTriggers.customer_updated.key]: customerTriggers.customer_updated,
         [orderTriggers.order_created.key]: orderTriggers.order_created,
         [orderTriggers.order_updated.key]: orderTriggers.order_updated,
         [orderTriggers.order_status_changed.key]: orderTriggers.order_status_changed,
+        [customerGroupTrigger.key]: customerGroupTrigger,
     },
 
     // If you want your searches to show up, you better include it here!
@@ -52,7 +53,7 @@ const App = {
     // If you want your creates to show up, you better include it here!
     creates: {
         [customerCreate.key]: customerCreate,
-        [order.key]: order
+        [orderCreate.key]: orderCreate,
     }
 };
 

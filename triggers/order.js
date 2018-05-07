@@ -2,13 +2,6 @@ const common = require("../common");
 const triggers_common = require("./common");
 
 /**
- *  Triggers on order created using standard order hook payload.
- */
-const onHookReceived = (z, bundle) => {
-    return [bundle.cleanedRequest];
-};
-
-/**
  *  Converts a standard orders API response to the webhook payload.
  */
 const apiToHookFunc = (data) => {
@@ -36,53 +29,22 @@ const apiToHookFunc = (data) => {
     };
 };
 
-/**
- *  Generate a trigger for a SalesOrderWebhookSpec.
- */
-const makeTrigger = (eventType, label, desc) => {
-    return {
-        key: eventType,
-        noun: label,
-
-        display: {
-            label: label,
-            description: desc,
-        },
-
-        operation: {
-            inputFields: [
-            ],
-
-            type: "hook",
-
-            performSubscribe: triggers_common.make_performSubscribe(eventType),
-            performUnsubscribe: triggers_common.unsubscribeHook,
-            performList: triggers_common.make_performList("orders", apiToHookFunc),
-            perform: onHookReceived,
-
-            sample: {
-                uuid: 1,
-                name: "Test"
-            },
-
-            outputFields: [
-            ]
-        }
-    };
-};
+const makeOrderTrigger = (eventType, label, desc) => {
+    return triggers_common.makeTrigger("orders", eventType, label, desc, apiToHookFunc);
+}
 
 module.exports = {
-    order_created: makeTrigger(
+    order_created: makeOrderTrigger(
         "order_created",
         "Order Created",
         "Triggers when a new order is created"
     ),
-    order_updated: makeTrigger(
+    order_updated: makeOrderTrigger(
         "order_updated",
         "Order Updated",
         "Triggers when an order is updated"
     ),
-    order_status_changed: makeTrigger(
+    order_status_changed: makeOrderTrigger(
         "order_status_changed",
         "Order Status Changed",
         "Triggers when an order changes status"
