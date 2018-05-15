@@ -12,7 +12,7 @@ const listOrders = (z) => {
     const responsePromise = z.request({
         url: apiBaseURL,
         params: {
-            order_by: "-ctime"
+            order_by: "-mtime"
         }
     });
     return responsePromise
@@ -39,7 +39,7 @@ module.exports = {
     get: {
         display: {
             label: "Get Order",
-            description: "Gets a order."
+            description: "Gets an order."
         },
         operation: {
             inputFields: [
@@ -52,7 +52,8 @@ module.exports = {
     list: {
         display: {
             label: "New Order",
-            description: "Lists the orders."
+            description: "Lists the orders.",
+            hidden: true
         },
         operation: {
             perform: listOrders
