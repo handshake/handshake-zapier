@@ -8,7 +8,7 @@ const updateStatus = (z, bundle) => {
     });
 
     return promise.then(response => {
-        oldStatus = JSON.parse(response.content).status;
+        const oldStatus = JSON.parse(response.content).status;
         const responsePromise = z.request({
             method: "POST",
             url: `${common.baseURL}/api/latest/orders/{{bundle.inputData.id}}/actions/changeStatus`,

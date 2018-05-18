@@ -5,8 +5,10 @@ const triggers_common = require("./common");
  *  Converts a standard orders API response to the webhook payload.
  */
 const apiToHookFunc = (data) => {
+    let api_url = common.baseURL + data.resource_uri;
+
     return {
-        api_url: common.baseURL + data.resource_uri,
+        api_url: api_url,
         domain: common.baseURL,
         account_hash: "61237ASDCASASD76767767=",
         order_id: data.objID,
@@ -23,9 +25,8 @@ const apiToHookFunc = (data) => {
         external_id: data.externalID,
         old_status: data.status,
         is_new: false,
-        // csv_export_url
-        // html_export_url
-        // web_url
+        csv_export_url: `${api_url}/actions/export?format=csv`,
+        html_export_url: `${api_url}/actions/export?format=html`,
     };
 };
 
