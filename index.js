@@ -1,11 +1,18 @@
-const OrderResource = require('./resources/order');
 const authentication = require("./authentication");
+
+// Resources
+const OrderResource = require('./resources/order');
+
+// Creates
 const CustomerCreate = require("./creates/customer");
-const CustomerGroupTrigger = require("./triggers/customer_group");
 const OrderChangeStatus = require("./creates/order_change_status");
 const OrderExport = require("./creates/order_export");
+const OrderSendEmail = require("./creates/order_send_email");
+
+// Triggers
 const OrderTriggers = require("./triggers/order");
 const CustomerTriggers = require("./triggers/customer");
+const CustomerGroupTrigger = require("./triggers/customer_group");
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -35,9 +42,9 @@ const App = {
     ],
 
     // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!
-    resources: {
-        [OrderResource.key]: OrderResource,
-    },
+    // resources: {
+    //     [OrderResource.key]: OrderResource,
+    // },
 
     // If you want your trigger to show up, you better include it here!
     triggers: {
@@ -58,6 +65,7 @@ const App = {
         [CustomerCreate.key]: CustomerCreate,
         [OrderChangeStatus.key]: OrderChangeStatus,
         [OrderExport.key]: OrderExport,
+        [OrderSendEmail.key]: OrderSendEmail,
     }
 };
 
