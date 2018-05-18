@@ -61,9 +61,11 @@ module.exports = {
     },
 
     search: {
+        key: "order_search",
+        noun: "Order",
         display: {
             label: "Find Order",
-            description: "Finds an order by searching."
+            description: "Finds an order by searching for its ID."
         },
         operation: {
             inputFields: [
