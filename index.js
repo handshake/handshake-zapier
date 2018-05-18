@@ -2,7 +2,8 @@ const OrderResource = require('./resources/order');
 const authentication = require("./authentication");
 const CustomerCreate = require("./creates/customer");
 const CustomerGroupTrigger = require("./triggers/customer_group");
-const OrderCreate = require("./creates/order");
+const OrderChangeStatus = require("./creates/order_change_status");
+const OrderExport = require("./creates/order_export");
 const OrderTriggers = require("./triggers/order");
 const CustomerTriggers = require("./triggers/customer");
 
@@ -55,7 +56,8 @@ const App = {
     // If you want your creates to show up, you better include it here!
     creates: {
         [CustomerCreate.key]: CustomerCreate,
-        // [OrderCreate.key]: OrderCreate,
+        [OrderChangeStatus.key]: OrderChangeStatus,
+        [OrderExport.key]: OrderExport,
     }
 };
 

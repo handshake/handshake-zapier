@@ -23,12 +23,12 @@ const updateStatus = (z, bundle) => {
 };
 
 module.exports = {
-    key: "order",
+    key: "order_change_status",
     noun: "Order",
 
     display: {
-        label: "Update Order",
-        description: "Update an order status."
+        label: "Update Order Status",
+        description: "Updates an order status."
     },
 
     operation: {
