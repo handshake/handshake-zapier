@@ -23,7 +23,8 @@ module.exports = {
 
     display: {
         label: "Update Order Status",
-        description: "Updates an order status."
+        description: "Updates an order status.",
+        important: true,
     },
 
     operation: {

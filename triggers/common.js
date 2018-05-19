@@ -82,14 +82,15 @@ const make_performList = (resourceName, apiToHookFunc) => {
 /**
  *  Generate a trigger.
  */
-const makeTrigger = (resourceName, eventType, label, desc, apiToHookFunc) => {
+const makeTrigger = (params) => {
     return {
-        key: eventType,
-        noun: label,
+        key: params.eventType,
+        noun: params.label,
 
         display: {
-            label: label,
-            description: desc,
+            label: params.label,
+            description: params.description,
+            important: params.important || false,
         },
 
         operation: {
@@ -98,9 +99,9 @@ const makeTrigger = (resourceName, eventType, label, desc, apiToHookFunc) => {
 
             type: "hook",
 
-            performSubscribe: make_performSubscribe(eventType),
+            performSubscribe: make_performSubscribe(params.eventType),
             performUnsubscribe: unsubscribeHook,
-            performList: make_performList(resourceName, apiToHookFunc),
+            performList: make_performList(params.resourceName, params.apiToHookFunc),
             perform: onHookReceived,
 
             sample: {

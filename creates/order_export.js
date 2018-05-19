@@ -18,7 +18,8 @@ module.exports = {
 
     display: {
         label: "Export Order",
-        description: "Exports an order to HTML or CSV via the account's template."
+        description: "Exports an order to HTML or CSV via the account's template.",
+        important: true,
     },
 
     operation: {

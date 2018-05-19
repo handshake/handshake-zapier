@@ -23,8 +23,15 @@ const apiToHookFunc = (z, bundle, data) => {
     });
 };
 
-const makeCustomerTrigger = (eventType, label, desc) => {
-    return triggers_common.makeTrigger("customers", eventType, label, desc, apiToHookFunc);
+const makeCustomerTrigger = (eventType, label, desc, important = false) => {
+    return triggers_common.makeTrigger({
+        resourceName: "customers",
+        eventType: eventType,
+        label: label,
+        description: desc,
+        apiToHookFunc: apiToHookFunc,
+        important: important,
+    });
 }
 
 module.exports = {
