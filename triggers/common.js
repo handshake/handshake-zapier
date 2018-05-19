@@ -71,8 +71,8 @@ const make_performList = (resourceName, apiToHookFunc) => {
         return z.request(options)
             .then((response) => {
                 const data = z.JSON.parse(response.content)["objects"][0];
-                return [apiToHookFunc(data)];
-            });
+                return apiToHookFunc(z, bundle, data);
+            }).then(payload => [payload]);
     };
 
     return poll;

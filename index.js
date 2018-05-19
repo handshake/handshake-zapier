@@ -48,11 +48,11 @@ const App = {
     // },
 
     triggers: {
-        [CustomerTriggers.customer_created.key]: CustomerTriggers.customer_created,
-        [CustomerTriggers.customer_updated.key]: CustomerTriggers.customer_updated,
         [OrderTriggers.order_created.key]: OrderTriggers.order_created,
         [OrderTriggers.order_updated.key]: OrderTriggers.order_updated,
         [OrderTriggers.order_status_changed.key]: OrderTriggers.order_status_changed,
+        [CustomerTriggers.customer_created.key]: CustomerTriggers.customer_created,
+        [CustomerTriggers.customer_updated.key]: CustomerTriggers.customer_updated,
         [CustomerGroupTrigger.key]: CustomerGroupTrigger,
     },
 
@@ -61,11 +61,11 @@ const App = {
     },
 
     creates: {
-        [CustomerCreate.key]: CustomerCreate,
         [OrderChangeStatus.key]: OrderChangeStatus,
         [OrderExport.key]: OrderExport,
         [OrderSendEmail.key]: OrderSendEmail,
         [OrderSplit.key]: OrderSplit,
+        [CustomerCreate.key]: CustomerCreate,
     }
 };
 

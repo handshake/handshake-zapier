@@ -4,8 +4,8 @@ const triggers_common = require("./common");
 /**
  *  Converts a standard orders API response to the webhook payload.
  */
-const apiToHookFunc = (data) => {
-    return {
+const apiToHookFunc = (z, bundle, data) => {
+    return Promise.resolve({
         api_url: common.baseURL + data.resource_uri,
         domain: common.baseURL,
         account_hash: "61237ASDCASASD76767767=",
@@ -19,7 +19,7 @@ const apiToHookFunc = (data) => {
         // has_direct_access
         // user_group_ids
         // web_url
-    };
+    });
 };
 
 const makeCustomerTrigger = (eventType, label, desc) => {
