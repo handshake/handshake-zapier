@@ -56,27 +56,15 @@ const onHookReceived = (z, bundle) => {
 /**
  *  Returns a function that can be used for the `performList` in a trigger.
  */
-const make_performList = (resourceName, apiToHookFunc) => {
+const make_performList = (eventType) => {
+
     /**
-     *  Poll the server to get sample data during Zap authoring.
+     *  Request sample data from the server for this event_type.
      */
-    const poll = (z, bundle) => {
-        const options = {
-            url: `${common.apiURL(bundle)}/${resourceName}`,
-            params: {
-                limit: 1,
-            }
-        };
-
-        return z.request(options)
-            .then((response) => {
-                const data = z.JSON.parse(response.content)["objects"][0];
-                return apiToHookFunc(z, bundle, data);
-            })
-            .then(payload => [payload]);
+    return (z, bundle) => {
+        return z.request(`${common.baseURL(bundle)}/webhooks/sample/${eventType}/latest`)
+            .then((response) => [z.JSON.parse(response.content)]);
     };
-
-    return poll;
 };
 
 /**
@@ -101,7 +89,7 @@ const makeTrigger = (params) => {
 
             performSubscribe: make_performSubscribe(params.eventType),
             performUnsubscribe: unsubscribeHook,
-            performList: make_performList(params.resourceName, params.apiToHookFunc),
+            performList: make_performList(params.eventType),
             perform: onHookReceived,
 
             sample: {
