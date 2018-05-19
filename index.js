@@ -9,6 +9,7 @@ const OrderChangeStatus = require("./creates/order_change_status");
 const OrderExport = require("./creates/order_export");
 const OrderSendEmail = require("./creates/order_send_email");
 const OrderSplits = require("./creates/order_split");
+const OrderUpdate = require("./creates/order_update");
 const OrderDelete = require("./creates/order_delete");
 
 // Triggers
@@ -69,6 +70,7 @@ const App = {
         [OrderSendEmail.key]: OrderSendEmail,
         [OrderSplits.order_split.key]: OrderSplits.order_split,
         [OrderSplits.order_copy.key]: OrderSplits.order_copy,
+        [OrderUpdate.key]: OrderUpdate,
         [OrderDelete.key]: OrderDelete,
         [CustomerCreate.key]: CustomerCreate,
     }
