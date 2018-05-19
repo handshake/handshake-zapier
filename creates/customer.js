@@ -3,18 +3,16 @@ const customerGroup = require("../triggers/customer_group");
 const common = require("../common");
 
 const createCustomer = (z, bundle) => {
-    const responsePromise = z.request({
+    return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/customers`,
+        url: `${common.apiURL(bundle)}/customers`,
         body: JSON.stringify({
             id: bundle.inputData.id,
             name: bundle.inputData.name,
             contact: bundle.inputData.contact,
             email: bundle.inputData.email
         })
-    });
-    return responsePromise
-        .then(response => JSON.parse(response.content));
+    }).then(response => JSON.parse(response.content));
 };
 
 module.exports = {

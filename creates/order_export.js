@@ -7,7 +7,7 @@ const exportOrder = (z, bundle) => {
 
     return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/orders/${objID}/actions/export?format=${format}`,
+        url: `${common.apiURL(bundle)}/orders/${objID}/actions/export?format=${format}`,
         body: JSON.stringify({}),
     }).then(response => JSON.parse(response.content));
 };

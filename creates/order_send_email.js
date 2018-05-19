@@ -13,7 +13,7 @@ const sendEmail = (z, bundle) => {
 
     return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/orders/${objID}/actions/send_email`,
+        url: `${common.apiURL(bundle)}/orders/${objID}/actions/send_email`,
         body: body,
     }).then(response => JSON.parse(response.content));
 };

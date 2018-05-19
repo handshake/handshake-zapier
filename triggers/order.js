@@ -5,18 +5,19 @@ const triggers_common = require("./common");
  *  Converts a standard orders API response to the webhook payload.
  */
 const apiToHookFunc = (z, bundle, data) => {
-    let api_url = common.baseURL + data.resource_uri;
+    let baseURL = common.baseURL(bundle)
+    let apiURL = baseURL + data.resource_uri;
 
     // Fetch the actual category if there is one
     let cat_promise = (typeof data.category === "string") &&
-        z.request(`${common.baseURL}${data.category}`).
+        z.request(baseURL + data.category).
         then(response => z.JSON.parse(response.content)) ||
         Promise.resolve(null);
 
     return cat_promise.then(category => {
         return {
-            api_url: api_url,
-            domain: common.baseURL,
+            api_url: apiURL,
+            domain: baseURL,
             account_hash: "61237ASDCASASD76767767=",
             order_id: data.objID,
             order_uuid: data.uuid,
@@ -32,8 +33,8 @@ const apiToHookFunc = (z, bundle, data) => {
             external_id: data.externalID,
             old_status: data.status,
             is_new: false,
-            csv_export_url: `${api_url}/actions/export?format=csv`,
-            html_export_url: `${api_url}/actions/export?format=html`,
+            csv_export_url: `${apiURL}/actions/export?format=csv`,
+            html_export_url: `${apiURL}/actions/export?format=html`,
             category_id: category && category.id || null,
             manufacturer_id: null,
         };

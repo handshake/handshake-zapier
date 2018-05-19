@@ -2,12 +2,10 @@ const sample = require("../samples/sample_customer_group");
 const common = require("../common");
 
 const getCustomerGroup = (z, bundle) => {
-    const responsePromise = z.request({
+    return z.request({
         method: "GET",
-        url: `${common.baseURL}/api/latest/customer_groups`,
-    });
-    return responsePromise
-        .then(response => z.JSON.parse(response.content).objects);
+        url: `${common.apiURL(bundle)}/customer_groups`,
+    }).then(response => z.JSON.parse(response.content).objects);
 }
 
 module.exports = {

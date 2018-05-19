@@ -1,16 +1,16 @@
 const common = require("../common");
-const apiBaseURL = `${common.apiURL}/orders`;
+const apiBaseURL = (bundle) => `${common.apiURL(bundle)}/orders`;
 
 // get a single order
 const getOrder = (z, bundle) => {
-    return z.request({url: `${apiBaseURL}/${bundle.inputData.id}`})
+    return z.request({url: `${apiBaseURL(bundle)}/${bundle.inputData.id}`})
         .then(response => [z.JSON.parse(response.content)]);
 };
 
 // get a list of orders
-const listOrders = (z) => {
+const listOrders = (z, bundle) => {
     const responsePromise = z.request({
-        url: apiBaseURL,
+        url: apiBaseURL(bundle),
         params: {
             order_by: "-mtime"
         }

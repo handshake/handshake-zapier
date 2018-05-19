@@ -7,7 +7,7 @@ const splitOrder = (z, bundle) => {
 
     return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/orders/${objID}/actions/split`,
+        url: `${common.apiURL(bundle)}/orders/${objID}/actions/split`,
         body: JSON.stringify({
             group_by_template: t,
             keep_original: !!bundle.inputData.keep_original,

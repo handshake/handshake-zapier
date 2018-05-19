@@ -12,7 +12,7 @@ const make_performSubscribe = (eventName) => {
      */
     const subscribeHook = (z, bundle) => {
         const options = {
-            url: common.hookURL,
+            url: common.hookURL(bundle),
             method: "POST",
             body: JSON.stringify({
                 target_url: bundle.targetUrl,
@@ -34,7 +34,7 @@ const make_performSubscribe = (eventName) => {
  */
 const unsubscribeHook = (z, bundle) => {
     const options = {
-        url: common.hookURL,
+        url: common.hookURL(bundle),
         method: "DELETE",
         body: {target_url: bundle.targetUrl},
     };
@@ -62,7 +62,7 @@ const make_performList = (resourceName, apiToHookFunc) => {
      */
     const poll = (z, bundle) => {
         const options = {
-            url: `${ common.apiURL }/${ resourceName }`,
+            url: `${common.apiURL(bundle)}/${resourceName}`,
             params: {
                 limit: 1,
             }
@@ -72,7 +72,8 @@ const make_performList = (resourceName, apiToHookFunc) => {
             .then((response) => {
                 const data = z.JSON.parse(response.content)["objects"][0];
                 return apiToHookFunc(z, bundle, data);
-            }).then(payload => [payload]);
+            })
+            .then(payload => [payload]);
     };
 
     return poll;
