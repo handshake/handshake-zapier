@@ -60,6 +60,7 @@ module.exports = {
             {
                 key: "new_category_id",
                 label: "New Order Category ID",
+                dynamic: "order_category.id.name",
             },
         ],
         perform: splitOrder,

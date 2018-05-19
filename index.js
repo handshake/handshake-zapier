@@ -15,6 +15,7 @@ const OrderDelete = require("./creates/order_delete");
 const OrderTriggers = require("./triggers/order");
 const CustomerTriggers = require("./triggers/customer");
 const CustomerGroupTrigger = require("./triggers/customer_group");
+const OrderCategoryTrigger = require("./triggers/order_category");
 
 const handleHTTPError = (response, z) => {
     if (response.status >= 400) {
@@ -55,6 +56,7 @@ const App = {
         [CustomerTriggers.customer_created.key]: CustomerTriggers.customer_created,
         [CustomerTriggers.customer_updated.key]: CustomerTriggers.customer_updated,
         [CustomerGroupTrigger.key]: CustomerGroupTrigger,
+        [OrderCategoryTrigger.key]: OrderCategoryTrigger,
     },
 
     searches: {
