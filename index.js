@@ -8,6 +8,7 @@ const CustomerCreate = require("./creates/customer");
 const OrderChangeStatus = require("./creates/order_change_status");
 const OrderExport = require("./creates/order_export");
 const OrderSendEmail = require("./creates/order_send_email");
+const OrderSplit = require("./creates/order_split");
 
 // Triggers
 const OrderTriggers = require("./triggers/order");
@@ -46,7 +47,6 @@ const App = {
     //     [OrderResource.key]: OrderResource,
     // },
 
-    // If you want your trigger to show up, you better include it here!
     triggers: {
         [CustomerTriggers.customer_created.key]: CustomerTriggers.customer_created,
         [CustomerTriggers.customer_updated.key]: CustomerTriggers.customer_updated,
@@ -56,17 +56,16 @@ const App = {
         [CustomerGroupTrigger.key]: CustomerGroupTrigger,
     },
 
-    // If you want your searches to show up, you better include it here!
     searches: {
         [OrderResource.search.key]: OrderResource.search,
     },
 
-    // If you want your creates to show up, you better include it here!
     creates: {
         [CustomerCreate.key]: CustomerCreate,
         [OrderChangeStatus.key]: OrderChangeStatus,
         [OrderExport.key]: OrderExport,
         [OrderSendEmail.key]: OrderSendEmail,
+        [OrderSplit.key]: OrderSplit,
     }
 };
 

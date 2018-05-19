@@ -14,8 +14,8 @@ const apiToHookFunc = (data) => {
         order_id: data.objID,
         order_uuid: data.uuid,
         customer_id: data.customer.id,
-        customer_name: data.customer.name,
-        customer_uuid: data.customer.uuid,
+        customer_name: data.customer && data.customer.name || null,
+        customer_uuid: data.customer && data.customer.uuid || null,
         status: data.status,
         total_amount: data.totalAmount,
         total_amount_formatted: `$${ (data.totalAmount * 100).toFixed(2) }`,
@@ -27,6 +27,8 @@ const apiToHookFunc = (data) => {
         is_new: false,
         csv_export_url: `${api_url}/actions/export?format=csv`,
         html_export_url: `${api_url}/actions/export?format=html`,
+        category_id: null,
+        manufacturer_id: null,
     };
 };
 
