@@ -16,9 +16,10 @@ const splitOrder = (z, bundle) => {
         url: `${common.apiURL(bundle)}/orders/${objID}/actions/split`,
         body: JSON.stringify({
             group_by_template: t,
-            keep_original: !!bundle.inputData.keep_original,
             new_status: bundle.inputData.new_status,
             new_category_id: bundle.inputData.new_category_id,
+            keep_original: !!bundle.inputData.keep_original,
+            ignore_clones: !!bundle.inputData.ignore_clones,
         }),
     }).then(response => JSON.parse(response.content));
 };
@@ -35,13 +36,6 @@ const baseSplitAction = () => {
                     required: true
                 },
                 {
-                    key: "keep_original",
-                    label: "Keep original order after copy/split",
-                    type: "boolean",
-                    required: true,
-                    default: "yes",
-                },
-                {
                     key: "new_status",
                     label: "New Order Status",
                     choices: {
@@ -56,6 +50,22 @@ const baseSplitAction = () => {
                     key: "new_category_id",
                     label: "New Order Category ID",
                     dynamic: "order_category.id.name",
+                },
+                {
+                    key: "keep_original",
+                    label: "Keep original order after copy/split",
+                    type: "boolean",
+                    required: true,
+                    default: "yes",
+                },
+                {
+                    key: "ignore_clones",
+                    label: "Ignore clones",
+                    helpText: "Do not re-clone orders that are themselves clones. " +
+                        "Safeguards against runaway cloning loops, disable with care!",
+                    type: "boolean",
+                    required: true,
+                    default: "yes",
                 },
             ],
             perform: splitOrder,
