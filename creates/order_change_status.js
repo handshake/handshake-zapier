@@ -35,7 +35,7 @@ module.exports = {
                 label:"New Status",
                 choices: {
                     "New": "New",
-                    "Hold for Confirm": "Hold for Confirm",
+                    "Hold for confirm": "Hold for confirm",
                     "Confirmed": "Confirmed",
                     "Processing": "Processing",
                     "Complete": "Complete"
