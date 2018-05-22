@@ -36,7 +36,15 @@ module.exports = {
             key: "subdomain",
             label: "Subdomain",
             type: "string",
-            helpText: "Alternative Handshake server to use, e.g. 'sandbox'",
+            helpText: "Alternative Handshake server to use, e.g. 'sandbox'.",
+        },
+        {
+            key: "include_temp_auth",
+            label: "Include temp API key",
+            type: "boolean",
+            default: "no",
+            helpText: "Includes a temporary API key in each webhook. Helps avoid " +
+                "hardcoding your API key in your zap if you plan to make manual API calls.",
         },
     ],
 

@@ -17,6 +17,7 @@ const make_performSubscribe = (eventName) => {
             body: JSON.stringify({
                 target_url: bundle.targetUrl,
                 event: eventName,
+                include_temp_auth: !!bundle.authData.include_temp_auth,
             }),
         };
 
@@ -62,8 +63,13 @@ const make_performList = (eventType) => {
      *  Request sample data from the server for this event_type.
      */
     return (z, bundle) => {
-        return z.request(`${common.baseURL(bundle)}/webhooks/sample/${eventType}/latest`)
-            .then((response) => [z.JSON.parse(response.content)]);
+        return z.request({
+            method: "GET",
+            url: `${common.baseURL(bundle)}/webhooks/sample/${eventType}/latest`,
+            params: {
+                include_temp_auth: !!bundle.authData.include_temp_auth,
+            }
+        }).then((response) => [z.JSON.parse(response.content)]);
     };
 };
 
