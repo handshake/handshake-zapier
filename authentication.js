@@ -33,10 +33,12 @@ module.exports = {
             type: "string",
         },
         {
-            key: "subdomain",
-            label: "Subdomain",
+            key: "server",
+            label: "Server",
             type: "string",
-            helpText: "Alternative Handshake server to use, e.g. 'sandbox'.",
+            helpText: "Handshake server to use, e.g. app.handshake.com, sandbox.handshake.com etc",
+            default: "app.handshake.com",
+            required: true,
         },
         {
             key: "include_temp_auth",
