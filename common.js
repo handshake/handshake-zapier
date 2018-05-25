@@ -1,8 +1,8 @@
-const BASE_URL = process.env.BASE_URL || "https://app.handshake.com";
+const SERVER_ADDR = process.env.SERVER_ADDR || "app.handshake.com";
 const API_PATH = process.env.API_PATH || "/api/v3";
 
 const baseUrlForBundle = (bundle) => {
-    return bundle.authData.subdomain || BASE_URL;
+    return `https://${bundle.authData.server || SERVER_ADDR}`;
 };
 
 const apiUrlForBundle = (bundle) => {
