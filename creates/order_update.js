@@ -11,7 +11,22 @@ const updateOrder = (z, bundle) => {
         // Overwrite it with the user's input
         .then(response => {
             let order_data = z.JSON.parse(response.content);
-            return Object.assign(order_data, bundle.inputData.properties)
+            order_data = Object.assign(order_data, bundle.inputData.properties);
+            let promise = Promise.resolve(order_data);
+
+            // Insert order category URI if required
+            if (bundle.inputData.category) {
+                promise = promise.then(order_data => z.request({
+                    url: `${common.apiURL(bundle)}/order_categories`,
+                    params: {id: bundle.inputData.category},
+                }).then(response => {
+                    const cat_uri = z.JSON.parse(response.content).objects[0].resource_uri;
+                    order_data.category = cat_uri;
+                    return order_data;
+                }));
+            }
+
+            return promise;
         })
 
         // PUT the updated payload back into the API
@@ -40,6 +55,12 @@ module.exports = {
                 key: "id",
                 label: "ID",
                 required: true
+            },
+            {
+                key: "category",
+                label: "Order Category",
+                required: false,
+                dynamic: "order_category.id.name",
             },
             {
                 key: "properties",
