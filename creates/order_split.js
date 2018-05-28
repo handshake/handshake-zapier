@@ -1,5 +1,6 @@
 const sample = require("../samples/sample_order");
 const common = require("../common");
+const _ = require("lodash");
 
 const splitOrder = (z, bundle) => {
     const objID = bundle.inputData.id;
@@ -21,7 +22,10 @@ const splitOrder = (z, bundle) => {
             keep_original: !!bundle.inputData.keep_original,
             ignore_clones: !!bundle.inputData.ignore_clones,
         }),
-    }).then(response => JSON.parse(response.content));
+    }).then(response => {
+        let splits = z.JSON.parse(response.content)["split_orders"];
+        return _.keyBy(splits, (s) => s.group);
+    });
 };
 
 const baseSplitAction = () => {
