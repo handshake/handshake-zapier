@@ -5,7 +5,6 @@ const OrderResource = require('./resources/order');
 
 // Creates
 const CustomerCreate = require("./creates/customer");
-const OrderChangeStatus = require("./creates/order_change_status");
 const OrderExport = require("./creates/order_export");
 const OrderSendEmail = require("./creates/order_send_email");
 const OrderSplits = require("./creates/order_split");
@@ -65,7 +64,6 @@ const App = {
     },
 
     creates: {
-        [OrderChangeStatus.key]: OrderChangeStatus,
         [OrderExport.key]: OrderExport,
         [OrderSendEmail.key]: OrderSendEmail,
         [OrderSplits.order_split.key]: OrderSplits.order_split,
