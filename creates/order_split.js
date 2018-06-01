@@ -4,13 +4,12 @@ const _ = require("lodash");
 
 const splitOrder = (z, bundle) => {
     const objID = bundle.inputData.id;
+    let t = TEMPLATES[bundle.inputData.operation] || bundle.inputData.group_by_template || "";
 
     // It turns out that Zapier uses Django-style template tags ("{{" and "}}") for its own
     // templating when building out text fields in the Zapier UI, so we have to avoid using them.
     // Double brackets are visually close enough, and we just swap them out here.
-    const t = (bundle.inputData.group_by_template || "").
-          replace("[[", "{{").
-          replace("]]", "}}");
+    t = t.replace("[[", "{{").replace("]]", "}}");
 
     return z.request({
         method: "POST",
@@ -28,87 +27,94 @@ const splitOrder = (z, bundle) => {
     });
 };
 
-const baseSplitAction = () => {
-    return {
-        noun: "Order",
+const COPY_ORDER = "Copy order";
+const SPLIT_BY_MFR = "Split by manufacturer";
+const SPLIT_BY_BACKORDER = "Split in-stock vs backorder";
+const CUSTOM_SPLIT = "Custom split";
 
-        operation: {
-            inputFields: [
-                {
-                    key: "id",
-                    label: "ID",
-                    required: true
-                },
-                {
-                    key: "new_status",
-                    label: "New Order Status",
-                    choices: {
-                        "New": "New",
-                        "Hold for confirm": "Hold for confirm",
-                        "Confirmed": "Confirmed",
-                        "Processing": "Processing",
-                        "Complete": "Complete",
-                    },
-                },
-                {
-                    key: "new_category_id",
-                    label: "New Order Category ID",
-                    dynamic: "order_category.id.name",
-                },
-                {
-                    key: "keep_original",
-                    label: "Keep original order after copy/split",
-                    type: "boolean",
-                    required: true,
-                    default: "yes",
-                },
-                {
-                    key: "ignore_clones",
-                    label: "Ignore clones",
-                    helpText: "Do not re-clone orders that are themselves clones. " +
-                        "Safeguards against runaway cloning loops, disable with care!",
-                    type: "boolean",
-                    required: true,
-                    default: "yes",
-                },
-            ],
-            perform: splitOrder,
-            sample: sample,
-        }
-    };
+const TEMPLATES = {
+    [COPY_ORDER]: "",
+    [SPLIT_BY_MFR]: "[[ line.item.manufacturer.id ]]",
+    [SPLIT_BY_BACKORDER]: "{% if line.stockUnit.shelfQty > 0 %}in_stock{% else %}backorder{% /if %}",
 };
 
-/**
- *  The split action uses a template.
- */
-let splitAction = Object.assign(baseSplitAction(), {
+const splitAction = {
+    noun: "Order",
     key: "order_split",
+
     display: {
-        label: "Split Order",
-        description: "Splits an order by a user-defined key."
+        label: "Copy/Split Order",
+        description: "Copies or splits an order by a user-defined key."
     },
-});
 
-splitAction.operation.inputFields.splice(1, 0, {
-    key: "group_by_template",
-    label: "Template to group lines by. If empty, order will just be copied.",
-    default: "[[ line.item.manufacturer.id ]]",
-    required: true,
-});
-
-/**
- *  The copy action is just the split action with an empty template.
- */
-const copyAction = Object.assign(baseSplitAction(), {
-    key: "order_copy",
-    display: {
-        label: "Copy Order",
-        description: "Makes a copy of an existing order."
-    },
-});
-
-
-module.exports = {
-    order_split: splitAction,
-    order_copy: copyAction,
+    operation: {
+        inputFields: [
+            {
+                key: "id",
+                label: "ID",
+                required: true
+            },
+            {
+                key: "operation",
+                label: "Operation",
+                required: true,
+                altersDynamicFields: true,
+                default: COPY_ORDER,
+                choices: [
+                    COPY_ORDER,
+                    SPLIT_BY_MFR,
+                    SPLIT_BY_BACKORDER,
+                    CUSTOM_SPLIT,
+                ],
+            },
+            (z, bundle) => {
+                if (bundle.inputData.operation === CUSTOM_SPLIT) {
+                    return [{
+                        key: "group_by_template",
+                        label: "Template to group lines by. If empty, order will just be copied.",
+                        helpText: "For example, to split by manufacturer enter [[ line.item.manufacturer.id ]]",
+                        default: "[[ line.item.manufacturer.id ]]",
+                    }];
+                } else {
+                    return [];
+                }
+            },
+            {
+                key: "new_status",
+                label: "New Order Status",
+                choices: {
+                    "New": "New",
+                    "Hold for confirm": "Hold for confirm",
+                    "Confirmed": "Confirmed",
+                    "Processing": "Processing",
+                    "Complete": "Complete",
+                },
+            },
+            {
+                key: "new_category_id",
+                label: "New Order Category ID",
+                dynamic: "order_category.id.name",
+            },
+            {
+                key: "keep_original",
+                label: "Keep original order after copy/split",
+                type: "boolean",
+                required: true,
+                default: "yes",
+            },
+            {
+                key: "ignore_clones",
+                label: "Ignore clones",
+                helpText: "Do not re-clone orders that are themselves clones. " +
+                    "Safeguards against runaway cloning loops, disable with care!",
+                type: "boolean",
+                required: true,
+                default: "yes",
+            },
+        ],
+        perform: splitOrder,
+        sample: sample,
+    }
 };
+
+module.exports = splitAction;
