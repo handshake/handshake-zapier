@@ -88,7 +88,7 @@ module.exports = {
 
     display: {
         label: "Update Order",
-        description: "Updates one or more fields on an order.",
+        description: "Updates status, category and other fields on an order.",
         important: true,
     },
 
