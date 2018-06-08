@@ -17,6 +17,7 @@ module.exports = {
     display: {
         label: "Delete Order",
         description: "Deletes an order.",
+        hidden: true
     },
 
     operation: {

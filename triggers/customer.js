@@ -14,12 +14,12 @@ const makeCustomerTrigger = (eventType, label, desc, important = false) => {
 module.exports = {
     customer_created: makeCustomerTrigger(
         "customer_created",
-        "Customer Created",
-        "Triggers when a new customer is created"
+        "New Customer",
+        "Triggers when a new customer is created."
     ),
     customer_updated: makeCustomerTrigger(
         "customer_updated",
-        "Customer Updated",
-        "Triggers when a customer is updated"
+        "Updated Customer",
+        "Triggers when a customer is updated."
     ),
 };

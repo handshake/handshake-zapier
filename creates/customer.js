@@ -28,7 +28,7 @@ module.exports = {
         inputFields: [
             {key: "id", label:"ID", required: true},
             {key: "name", label:"Name", required: true},
-            {key: "contact", label:"Contact", required: true},
+            {key: "contact", label:"Contact", helpText: "Name of the primary contact at the customer account.",  required: true},
             {key: "email", label:"Email", required: true},
             {key: "customerGroup", label: "Customer Group", required: false, dynamic: "customerGroup.id.name"}
 

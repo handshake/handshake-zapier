@@ -12,7 +12,9 @@ const testAuth = (z, bundle) => {
     return z.request({
         url: `${common.apiURL(bundle)}/orders?limit=1`,
     }).then((response) => {
-        if (response.status === 401) {
+        z.console.log('@@@response.status:' + response.status);
+        response.status;
+        if(response.status == 401) {
             throw new Error("The API Key you supplied is invalid");
         }
         return response;
@@ -29,31 +31,15 @@ module.exports = {
         {
             key: "apiKey",
             label: "API Key",
+            helpText: "You can find your API key on the [my settings](https://app.handshake.com/account/users/me) page under your name in the top right menu of Handshake Hub.",
             required: true,
             type: "string",
-        },
-        {
-            key: "server",
-            label: "Server",
-            type: "string",
-            helpText: "Handshake server to use, e.g. app.handshake.com, sandbox.handshake.com etc",
-            default: "app.handshake.com",
-            required: true,
-        },
-        {
-            key: "include_temp_auth",
-            label: "Include temp API key",
-            type: "boolean",
-            default: "no",
-            helpText: "Includes a temporary API key in each webhook. Helps avoid " +
-                "hardcoding your API key in your zap if you plan to make manual API calls.",
-        },
+        }
     ],
 
     // The test method allows Zapier to verify that the credentials a user provides are valid. We"ll
     // execute this method whenver a user connects their account for the first time.
-    test: testAuth,
-    connectionLabel: "Handshake"
+    test: testAuth
 };
 
 

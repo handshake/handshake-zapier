@@ -14,20 +14,20 @@ const makeOrderTrigger = (eventType, label, desc, important) => {
 module.exports = {
     order_created: makeOrderTrigger(
         "order_created",
-        "Order Created",
-        "Triggers when a new order is created",
+        "New Order",
+        "Triggers when a new order is created.",
         true
     ),
     order_updated: makeOrderTrigger(
         "order_updated",
-        "Order Updated",
-        "Triggers when an order is updated",
+        "Updated Order",
+        "Triggers when an order is updated.",
         true
     ),
     order_status_changed: makeOrderTrigger(
         "order_status_changed",
-        "Order Status Changed",
-        "Triggers when an order changes status",
+        "New Order Status Change",
+        "Triggers when an order changes status.",
         true
     ),
 };
