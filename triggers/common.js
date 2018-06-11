@@ -69,7 +69,11 @@ const make_performList = (eventType) => {
             params: {
                 include_temp_auth: !!bundle.authData.include_temp_auth,
             }
-        }).then((response) => [z.JSON.parse(response.content)]);
+        }).then((response) => {
+            return response.status < 300 ? [z.JSON.parse(response.content)] : [];
+        }).catch((err) => {
+            return [];
+        });
     };
 };
 
