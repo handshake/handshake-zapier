@@ -31,7 +31,7 @@ module.exports = {
         {
             key: "apiKey",
             label: "API Key",
-            helpText: "You can find your API key on the [my settings](https://app.handshake.com/account/users/me) page under your name in the top right menu of Handshake Hub.",
+            helpText: `You can find your API key on the [my settings](${common.baseURL()}/account/users/me) page under your name in the top right menu of Handshake Hub.`,
             required: true,
             type: "string",
         }

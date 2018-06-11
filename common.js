@@ -2,7 +2,7 @@ const SERVER_ADDR = process.env.SERVER_ADDR || "app.handshake.com";
 const API_PATH = process.env.API_PATH || "/api/v3";
 
 const baseUrlForBundle = (bundle) => {
-    return `https://${bundle.authData.server || SERVER_ADDR}`;
+    return `https://${bundle && bundle.authData.server || SERVER_ADDR}`;
 };
 
 const apiUrlForBundle = (bundle) => {
