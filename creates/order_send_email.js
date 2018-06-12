@@ -37,11 +37,12 @@ module.exports = {
             },
             {
                 key: "to",
-                label: "To",
+                label: "To Email",
+                required: true
             },
             {
                 key: "cc",
-                label: "CC",
+                label: "CC Email",
             }
         ],
         perform: sendEmail,

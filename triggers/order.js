@@ -26,7 +26,7 @@ module.exports = {
     ),
     order_status_changed: makeOrderTrigger(
         "order_status_changed",
-        "New Order Status Change",
+        "Order Status Changed",
         "Triggers when an order changes status.",
         true
     ),
