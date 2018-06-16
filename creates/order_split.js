@@ -51,7 +51,8 @@ const splitAction = {
         inputFields: [
             {
                 key: "id",
-                label: "ID",
+                label: "Order ID",
+                helpText: "The order must already exist in Handshake.",
                 required: true
             },
             {
@@ -102,18 +103,24 @@ const splitAction = {
                 required: true,
                 default: "yes",
             },
-            {
-                key: "ignore_clones",
-                label: "Ignore clones",
-                helpText: "Do not re-clone orders that are themselves clones. " +
-                    "Safeguards against runaway cloning loops, disable with care!",
-                type: "boolean",
-                required: true,
-                default: "yes",
-            },
+            // {
+            //     key: "ignore_clones",
+            //     label: "Ignore clones",
+            //     helpText: "Do not re-clone orders that are themselves clones. " +
+            //         "Safeguards against runaway cloning loops, disable with care!",
+            //     type: "boolean",
+            //     required: true,
+            //     default: "yes",
+            // },
         ],
         perform: splitOrder,
         sample: sample,
+        outputFields: [
+            {key: "objID", label: "ID"},
+            {key: "totalAmount", label: "Total Amount"},
+            {key: "customer", label: "Customer"},
+            {key: "lines", label: "Lines"},
+        ],
     }
 };
 

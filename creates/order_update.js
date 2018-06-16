@@ -90,6 +90,7 @@ module.exports = {
         label: "Update Order",
         description: "Updates status, category and other fields on an order.",
         important: false,
+        hidden: true
     },
 
     operation: {

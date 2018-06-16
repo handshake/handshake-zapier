@@ -32,7 +32,8 @@ module.exports = {
         inputFields: [
             {
                 key: "id",
-                label: "ID",
+                label: "Order ID",
+                helpText: "The order must already exist in Handshake.",
                 required: true
             },
             {

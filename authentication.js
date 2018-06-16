@@ -12,10 +12,8 @@ const testAuth = (z, bundle) => {
     return z.request({
         url: `${common.apiURL(bundle)}/orders?limit=1`,
     }).then((response) => {
-        z.console.log('@@@response.status:' + response.status);
-        response.status;
-        if(response.status == 401) {
-            throw new Error("The API Key you supplied is invalid");
+        if(response.status === 401) {
+            throw new Error("The API Key you supplied is invalid. Please verify and try again.");
         }
         return response;
     });

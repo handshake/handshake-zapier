@@ -2,12 +2,9 @@ const common = require("../common");
 const triggers_common = require("./common");
 
 const ORDER_STATUSES = [
-    "Open",
-    "Hold for confirm",
     "Confirmed",
     "Processing",
     "Complete",
-    "Buyer review",
     "Seller review",
 ];
 
@@ -40,18 +37,21 @@ module.exports = {
         true,
         []
     ),
-    order_status_changed: makeOrderTrigger(
-        "order_status_changed",
-        "Order Status Changed",
-        "Triggers when an order changes status.",
-        true,
-        false,
-        [
-            { 
-                key: "status", 
-                helpText: 'Which statuses this should trigger on.' ,
-                choices: ORDER_STATUSES
-            }
-        ]
-    )
+    
+    // order_status_changed: makeOrderTrigger(
+    //     "order_status_changed",
+    //     "Order Status Changed",
+    //     "Triggers when an order changes status.",
+    //     true,
+    //     false,
+    //     [
+    //         { 
+    //             key: "status", 
+    //             helpText: 'Which statuses this should trigger on.' ,
+    //             choices: ORDER_STATUSES
+    //         }
+    //     ]
+    // )
 };
+
+

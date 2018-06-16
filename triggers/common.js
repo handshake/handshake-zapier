@@ -50,10 +50,18 @@ const unsubscribeHook = (z, bundle) => {
  *  Just return the hook payload whenever one arrives.  Reaching back out to API is expensive.
  */
 const onHookReceived = (z, bundle) => {
-    if(bundle.inputData.status && bundle.inputData.status === bundle.cleanedRequest.status){
-        return [bundle.cleanedRequest]; 
-    } 
+    return [bundle.cleanedRequest]; 
 };
+
+const onStatusChangeHookReceived = (z, bundle) => {
+    if(bundle.inputData.status && bundle.inputData.status === bundle.cleanedRequest.status){
+        z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
+        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status)
+        return [bundle.cleanedRequest];
+    } else {
+        return [];
+    }
+}
 
 
 /**
@@ -72,12 +80,7 @@ const make_performList = (eventType) => {
                 include_temp_auth: !!bundle.authData.include_temp_auth,
             }
         }).then((response) => {
-            if(bundle.inputData.status){
-                z.console.log(bundle.inputData)
-                return response.status < 300 ? [z.JSON.parse(response.content)] : [];
-            } else {
-                return [];
-            }
+            return response.status < 300 ? [z.JSON.parse(response.content)] : [];
         }).catch((err) => {
             return [];
         });
@@ -125,4 +128,8 @@ const makeTrigger = (params) => {
 
 module.exports = {
     makeTrigger: makeTrigger,
+    make_performSubscribe: make_performSubscribe,
+    make_performList: make_performList,
+    unsubscribeHook: unsubscribeHook,
+    onStatusChangeHookReceived: onStatusChangeHookReceived
 };
