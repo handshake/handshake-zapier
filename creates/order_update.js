@@ -89,14 +89,15 @@ module.exports = {
     display: {
         label: "Update Order",
         description: "Updates status, category and other fields on an order.",
-        important: true,
+        important: false,
     },
 
     operation: {
         inputFields: [
             {
                 key: "id",
-                label: "ID",
+                label: "Order ID",
+                helpText: "The order must already exist in Handshake.",
                 required: true
             },
             {

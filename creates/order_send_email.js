@@ -25,7 +25,7 @@ module.exports = {
     display: {
         label: "Email Order Confirmation",
         description: "Sends an order to a specified list of email addresses.",
-        important: true,
+        important: false,
     },
 
     operation: {

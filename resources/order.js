@@ -65,6 +65,7 @@ module.exports = {
         noun: "Order",
         display: {
             label: "Find Order",
+            hidden: true,
             description: "Finds an order by searching for its ID."
         },
         operation: {

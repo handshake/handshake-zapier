@@ -23,7 +23,8 @@ module.exports = {
 
     display: {
         label: "Create Customer",
-        description: "Creates a customer."
+        description: "Creates a customer.",
+        important: false
     },
 
     operation: {

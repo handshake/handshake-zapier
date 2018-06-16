@@ -50,7 +50,9 @@ const unsubscribeHook = (z, bundle) => {
  *  Just return the hook payload whenever one arrives.  Reaching back out to API is expensive.
  */
 const onHookReceived = (z, bundle) => {
-    return [bundle.cleanedRequest];
+    if(bundle.inputData.status && bundle.inputData.status === bundle.cleanedRequest.status){
+        return [bundle.cleanedRequest]; 
+    } 
 };
 
 
@@ -70,7 +72,12 @@ const make_performList = (eventType) => {
                 include_temp_auth: !!bundle.authData.include_temp_auth,
             }
         }).then((response) => {
-            return response.status < 300 ? [z.JSON.parse(response.content)] : [];
+            if(bundle.inputData.status){
+                z.console.log(bundle.inputData)
+                return response.status < 300 ? [z.JSON.parse(response.content)] : [];
+            } else {
+                return [];
+            }
         }).catch((err) => {
             return [];
         });
@@ -89,11 +96,13 @@ const makeTrigger = (params) => {
             label: params.label,
             description: params.description,
             important: params.important || false,
+            hidden: params.hidden
         },
 
         operation: {
-            inputFields: [
-            ],
+            
+            inputFields: params.inputFields,
+            
 
             type: "hook",
 
