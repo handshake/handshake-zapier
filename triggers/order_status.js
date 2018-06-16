@@ -45,7 +45,7 @@ module.exports = {
         inputFields: [
             {
                 key: "status", 
-                helpText: 'Which statuses this should trigger on.',
+                helpText: 'Which statuses this should trigger on. Leave blank to listen for all status changes.',
                 choices: ORDER_STATUSES
             }
         ],
