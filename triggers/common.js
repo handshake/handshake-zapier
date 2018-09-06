@@ -114,10 +114,7 @@ const makeTrigger = (params) => {
             performList: make_performList(params.eventType),
             perform: onHookReceived,
 
-            sample: {
-                uuid: 1,
-                name: "Test"
-            },
+            sample: params.sample,
 
             outputFields: [
             ]

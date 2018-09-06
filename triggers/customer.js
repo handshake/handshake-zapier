@@ -1,5 +1,6 @@
 const common = require("../common");
 const triggers_common = require("./common");
+const sample = require("../samples/sample_trigger_customer");
 
 const makeCustomerTrigger = (eventType, label, desc, important = false, hidden) => {
     return triggers_common.makeTrigger({
@@ -8,7 +9,8 @@ const makeCustomerTrigger = (eventType, label, desc, important = false, hidden) 
         label: label,
         description: desc,
         important: important,
-        hidden: hidden
+        hidden: hidden,
+        sample: sample
     });
 }
 

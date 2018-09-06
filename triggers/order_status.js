@@ -1,5 +1,6 @@
 const common = require("../common");
 const triggers_common = require("./common");
+const sample = require('../samples/sample_trigger_order_status');
 
 const ORDER_STATUSES = [
     "Confirmed",
@@ -57,10 +58,7 @@ module.exports = {
         performList: performList,
         perform: triggers_common.onStatusChangeHookReceived,
 
-        sample: {
-            uuid: 1,
-            name: "Test"
-        },
+        sample: sample,
 
         outputFields: []
     }
