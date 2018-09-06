@@ -43,7 +43,6 @@ module.exports = {
         key: 'new_status', 
         label:'New Status', 
         choices: {
-          'New': 'New',
           'Hold for Confirm': 'Hold for Confirm',
           'Confirmed': 'Confirmed',
           'Processing': 'Processing',

@@ -56,9 +56,16 @@ const onHookReceived = (z, bundle) => {
 const onStatusChangeHookReceived = (z, bundle) => {
     if(bundle.inputData.status && bundle.inputData.status === bundle.cleanedRequest.status){
         z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
-        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status)
+        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
+        return [bundle.cleanedRequest];
+    } else if(!!bundle.inputData.status){
+        // If there is no status to filter on, then just return the request regardless)
+        z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
+        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
         return [bundle.cleanedRequest];
     } else {
+        // If the status doesn't match the filter, but the filter exists, then don't return anything so the
+        // trigger doesn't run
         return [];
     }
 }
