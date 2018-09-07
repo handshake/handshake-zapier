@@ -1,7 +1,7 @@
 const common = require("../common");
 const triggers_common = require("./common");
-const sample_updated = require("../sample/sample_trigger_order_updated");
-const sample_created = require("../sample/sample_trigger_order_created");
+const sample_updated = require("../samples/sample_trigger_order_updated");
+const sample_created = require("../samples/sample_trigger_order_created");
 
 const ORDER_STATUSES = [
     "Confirmed",

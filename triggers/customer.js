@@ -1,8 +1,9 @@
 const common = require("../common");
 const triggers_common = require("./common");
-const sample = require("../samples/sample_trigger_customer");
+const sample_created = require("../samples/sample_trigger_customer_created");
+const sample_updated = require("../samples/sample_trigger_customer_updated");
 
-const makeCustomerTrigger = (eventType, label, desc, important = false, hidden) => {
+const makeCustomerTrigger = (eventType, label, desc, important = false, hidden, paramSample) => {
     return triggers_common.makeTrigger({
         resourceName: "customers",
         eventType: eventType,
@@ -10,7 +11,7 @@ const makeCustomerTrigger = (eventType, label, desc, important = false, hidden) 
         description: desc,
         important: important,
         hidden: hidden,
-        sample: sample
+        sample: paramSample
     });
 }
 
@@ -20,13 +21,15 @@ module.exports = {
         "New Customer",
         "Triggers when a new customer is created.",
         true,
-        false
+        false, 
+        sample_created
     ),
     customer_updated: makeCustomerTrigger(
         "customer_updated",
         "Updated Customer",
         "Triggers when a customer is updated.",
         false,
-        true
+        true,
+        sample_updated
     ),
 };
