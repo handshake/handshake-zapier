@@ -58,7 +58,7 @@ const onStatusChangeHookReceived = (z, bundle) => {
         z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
         z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
         return [bundle.cleanedRequest];
-    } else if(!!bundle.inputData.status){
+    } else if(!bundle.inputData.status){
         // If there is no status to filter on, then just return the request regardless)
         z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
         z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
