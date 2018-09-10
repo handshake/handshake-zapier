@@ -1,6 +1,9 @@
 const common = require("../common");
 const sample = require('../samples/sample_order');
 
+const utils = require('../utils');
+const parseResponse = utils.parseResponse;
+
 const updateStatus = (z, bundle) => {
   const promise = z.request({
     method: 'GET',
@@ -18,7 +21,8 @@ const updateStatus = (z, bundle) => {
       })
     });
   return responsePromise
-    .then(response => JSON.parse(response.content));
+    // .then(response => JSON.parse(response.content));
+    .then(response => JSON.parse(parseResponse));
   })
 };
 
