@@ -14,7 +14,14 @@ const createCustomer = (z, bundle) => {
             contact: bundle.inputData.contact,
             email: bundle.inputData.email
         })
-    }).then(response => JSON.parse(response.content));
+    }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return JSON.parse(response.content);
+      } else {
+        errorMsg = JSON.parse(response.content).__all__[0];
+        throw new Error(errorMsg);
+      } 
+    });
 };
 
 module.exports = {

@@ -37,7 +37,14 @@ const updateOrderCategory = (z, bundle) => {
                 method: "PUT",
                 url: url,
                 body: order_data,
-            }).then(response => z.JSON.parse(response.content));
+            }).then(response => {
+              if (response.status >= 200 && response.status < 300) {
+                return z.JSON.parse(response.content);
+              } else {
+                errorMsg = z.JSON.parse(response.content).__all__[0];
+                throw new Error(errorMsg);
+              } 
+            });
         })
 };
 

@@ -5,9 +5,12 @@ const parseResponse = (type, response) => {
   let results = [];
 
   if (response.status >= 200 && response.status < 300) {
+  	z.console.log("Processed successfully")
     results = JSON.parse(response.content);
   } else {
-    throw new Error(response.content);
+  	z.console.log("Hit the error!")
+  	errorMsg = JSON.parse(response.content).__all__[0];
+    throw new Error(errorMsg);
   }
 
   return results;

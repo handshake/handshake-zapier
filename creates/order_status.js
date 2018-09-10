@@ -21,8 +21,19 @@ const updateStatus = (z, bundle) => {
       })
     });
   return responsePromise
-    // .then(response => JSON.parse(response.content));
-    .then(response => JSON.parse(parseResponse));
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return JSON.parse(response.content);
+      } else {
+        errorMsg = JSON.parse(response.content).__all__[0];
+        throw new Error(errorMsg);
+      } 
+    });
+    // TODO: this bit above is repeated, should be extracted to this method. 
+    // Unfortunately, I haven't been able to troubleshoot fully, so it's repeated for
+    // all of the creates we have now - status, email, export, category, copy/split,
+    // and create customer.
+    // .then(response => parseResponse);
   })
 };
 
@@ -42,7 +53,8 @@ module.exports = {
         key: 'id', 
         label: 'ID', 
         helpText: "The order must already exist in Handshake.",
-        required: true},
+        required: true
+      },
       {
         key: 'new_status', 
         label:'New Status', 

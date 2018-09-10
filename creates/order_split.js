@@ -22,8 +22,13 @@ const splitOrder = (z, bundle) => {
             ignore_clones: !!bundle.inputData.ignore_clones,
         }),
     }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
         let splits = z.JSON.parse(response.content)["split_orders"];
         return _.keyBy(splits, (s) => s.group);
+      } else {
+        errorMsg = z.JSON.parse(response.content).__all__[0];
+        throw new Error(errorMsg);
+      } 
     });
 };
 
