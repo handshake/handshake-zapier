@@ -21,7 +21,7 @@ module.exports = {
         "New Customer",
         "Triggers when a new customer is created.",
         true,
-        false, 
+        true, 
         sample_created
     ),
     customer_updated: makeCustomerTrigger(

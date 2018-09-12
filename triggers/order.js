@@ -29,7 +29,7 @@ module.exports = {
         "New Order",
         "Triggers when a new order is created.",
         true,
-        false,
+        true,
         [],
         sample_created
     ),
