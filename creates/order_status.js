@@ -1,5 +1,5 @@
 const common = require("../common");
-const sample = require('../samples/sample_order');
+const sample = require('../samples/sample_create_order_status');
 
 const utils = require('../utils');
 const parseResponse = utils.parseResponse;
@@ -59,7 +59,7 @@ module.exports = {
         key: 'new_status', 
         label:'New Status', 
         choices: {
-          'Hold for Confirm': 'Hold for Confirm',
+          'Hold for confirm': 'Hold for Confirm',
           'Confirmed': 'Confirmed',
           'Processing': 'Processing',
           'Complete': 'Complete'

@@ -18,7 +18,13 @@ const createCustomer = (z, bundle) => {
       if (response.status >= 200 && response.status < 300) {
         return JSON.parse(response.content);
       } else {
-        errorMsg = JSON.parse(response.content).__all__[0];
+        error = JSON.parse(response.content);
+        if(Array.isArray(error)){
+            errorMsg = error.__all__[0];
+        } else {
+            errorMsg = error.id;
+        }
+        
         throw new Error(errorMsg);
       } 
     });

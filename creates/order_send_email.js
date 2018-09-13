@@ -1,4 +1,4 @@
-const sample = require("../samples/sample_order");
+const sample = require("../samples/sample_create_order_conf");
 const common = require("../common");
 
 const sendEmail = (z, bundle) => {

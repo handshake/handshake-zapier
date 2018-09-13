@@ -1,4 +1,4 @@
-const sample = require("../samples/sample_order");
+const sample = require("../samples/sample_create_order_export");
 const common = require("../common");
 
 const utils = require('../utils');

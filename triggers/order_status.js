@@ -32,11 +32,11 @@ const performList  = (z, bundle) => {
 
 module.exports = {
     key: 'order_status_changed',
-    noun: 'Order Status Changed',
+    noun: 'Order Status Change',
 
     display: {
         label: "Order Status Changed",
-        description: "Triggers when an order changes to a specific status",
+        description: "Triggers when an order changes status.",
         important: true,
         hidden: false
     },
