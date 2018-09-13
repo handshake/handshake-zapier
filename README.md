@@ -7,9 +7,6 @@ Based on examples from Zapier [here](https://github.com/zapier/zapier-platform-c
 ## Our Implementation
 The current, reviewed version of the zapier application is version 1.1.5. The review process from Zapier is long and nit-picky, so we've greatly simplified our app with the expectation that we can add in more actions later with a less strict review. They are very protective of the Zapier UX, though, which is beneficial in that the actions we expose here are generally pretty straightforward and include few inputs.
 
-### Triggers
-1. **New Customer** - triggers when a new customer is created. When this happens in Handshake Hub, the customer details are always blank, since we save first to get an object ID, then update the customer later. 
-1. **New Order** - triggers when a new order is created. When this happens in Handshake Hub, the order is always blank, since we save first to get an object ID, then update the order again later.
 1. **Order Status Changed** - triggers whenever an order changes status. There is a filter on this action, so that the user can chose to listen to orders entering one specific status (e.g., trigger this zap when an order changes to 'Confirmed').  If the filter is left blank, then any status change will trigger the zap.
 
 ### Creates
@@ -25,7 +22,12 @@ The current, reviewed version of the zapier application is version 1.1.5. The re
     1. Keep original order after copy/split - will either delete the original order, or leave it untouched after the operation has finished.
 
 ## Next Steps
-This app is currently (as of 9/10) in review by Zapier, and hopefully published in the next few days. 
+This app is currently (as of 9/13) in review by Zapier, and hopefully published in the next few days.
+
+### Triggers to rethink
+These triggers were removed late in the approval process because of limitations in our webhooks system. When creating orders/customers through Hub, we first save them empty object in order to get the netObjectId, and then present the user with a blank form to fill in (less the ID). The result is a webhook that triggers with _only_ a netObjectId, making the webhook effectively useless. Zapier's recommendation is to either implement a delay in the webhook when creating from Hub, or just simply remove the hook. I think we should supress it when there is only a netObjectId, or just rework how those pages work.
+1. **New Customer** - triggers when a new customer is created. When this happens in Handshake Hub, the customer details are always blank, since we save first to get an object ID, then update the customer later. 
+1. **New Order** - triggers when a new order is created. When this happens in Handshake Hub, the order is always blank, since we save first to get an object ID, then update the order again later.
 
 1. Implement more robust error handling. As of now, it's not very DRY or smart (it only surfaces the first error, if our API returns multiple, for instance).
 1. Generally refactor and review the code, since this hasn't gone through a formal review process yet.
