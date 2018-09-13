@@ -60,7 +60,7 @@ module.exports = {
 
     display: {
         label: "Update Order Category",
-        description: "Update the order category.",
+        description: "Updates the order category.",
         important: true,
     },
 

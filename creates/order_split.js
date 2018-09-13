@@ -78,8 +78,8 @@ const splitAction = {
                     return [{
                         key: "group_by_template",
                         label: "Template to group lines by. If empty, order will just be copied.",
-                        helpText: "For example, to split by manufacturer enter [[ line.item.manufacturer.id ]]",
-                        default: "[[ line.item.manufacturer.id ]]",
+                        helpText: "For example, to split by warehouse, enter [[ line.item.warehouse.id ]]",
+                        default: "[[ line.item.warehouse.id ]]",
                     }];
                 } else {
                     return [];
@@ -98,7 +98,7 @@ const splitAction = {
             },
             {
                 key: "new_category_id",
-                label: "New Order Category ID",
+                label: "New Order Category",
                 dynamic: "order_category.id.name",
             },
             {
