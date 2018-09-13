@@ -22,10 +22,16 @@ const updateOrderCategory = (z, bundle) => {
                     url: `${common.apiURL(bundle)}/order_categories`,
                     params: {id: bundle.inputData.category},
                 }).then(response => {
-                    const cat_uri = z.JSON.parse(response.content).objects[0].resource_uri;
-                    order_data.category = cat_uri;
-                    needs_put = true;
-                    return order_data;
+                    responseLength = z.JSON.parse(response.content).meta.total_count;
+                    if(responseLength > 0) {
+                        const cat_uri = z.JSON.parse(response.content).objects[0].resource_uri;
+                        order_data.category = cat_uri;
+                        needs_put = true;
+                        return order_data;
+                    } else {
+                        throw new Error("Sorry, it looks like we couldn't find that category.");
+                    }
+                    
                 }));
             }
             return promise;
