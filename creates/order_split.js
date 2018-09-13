@@ -23,8 +23,9 @@ const splitOrder = (z, bundle) => {
         }),
     }).then(response => {
       if (response.status >= 200 && response.status < 300) {
-        let splits = z.JSON.parse(response.content)["split_orders"];
-        return _.keyBy(splits, (s) => s.group);
+        // let splits = z.JSON.parse(response.content)["split_orders"];
+        // return _.keyBy(splits, (s) => s.group);
+        return JSON.parse(response.content)
       } else {
         errorMsg = z.JSON.parse(response.content).__all__[0];
         throw new Error(errorMsg);
@@ -78,8 +79,8 @@ const splitAction = {
                     return [{
                         key: "group_by_template",
                         label: "Template to group lines by. If empty, order will just be copied.",
-                        helpText: "For example, to split by warehouse, enter [[ line.item.warehouse.id ]]",
-                        default: "[[ line.item.warehouse.id ]]",
+                        helpText: "For example, to split by items over $20, use the following template.",
+                        default: "{% if line.unitPrice > 20 %}over_20{% else %}under_20{% /if %}",
                     }];
                 } else {
                     return [];

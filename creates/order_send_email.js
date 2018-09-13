@@ -17,7 +17,9 @@ const sendEmail = (z, bundle) => {
         body: body,
     }).then(response => {
       if (response.status >= 200 && response.status < 300) {
-        return JSON.parse(response.content);
+        order_conf = JSON.parse(response.content)
+        order_conf.orderId = objID;
+        return order_conf;
       } else {
         errorMsg = JSON.parse(response.content).__all__[0];
         throw new Error(errorMsg);

@@ -1,7 +1,9 @@
 module.exports = {
-  "backorder":{
-  	"group": "backorder",
-  	"objID": "145111",
-  	"uuid": "06e70f33-49dc-466f-9f59-076869f478e0"
-  }
-}	
+  "split_orders": [
+    {
+      "group": "",
+      "objID": 145184,
+      "uuid": "a104186a-7ae7-414b-bfda-51048e42299a"
+    }
+  ]
+}

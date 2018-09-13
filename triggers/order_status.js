@@ -3,10 +3,12 @@ const triggers_common = require("./common");
 const sample = require('../samples/sample_trigger_order_status');
 
 const ORDER_STATUSES = [
+    "Hold for confirm",
+    "Seller review",
     "Confirmed",
     "Processing",
-    "Complete",
-    "Seller review"
+    "Complete"
+    
 ];
 
 const performList  = (z, bundle) => {
