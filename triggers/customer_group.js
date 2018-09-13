@@ -10,7 +10,7 @@ const getCustomerGroup = (z, bundle) => {
 
 module.exports = {
     key: "customerGroup",
-    noun: "Customer Group",
+    noun: "Customer",
 
 
     display: {

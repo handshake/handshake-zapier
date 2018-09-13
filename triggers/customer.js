@@ -11,7 +11,8 @@ const makeCustomerTrigger = (eventType, label, desc, important = false, hidden, 
         description: desc,
         important: important,
         hidden: hidden,
-        sample: paramSample
+        sample: paramSample,
+        noun: "Customer"
     });
 }
 

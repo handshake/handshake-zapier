@@ -32,7 +32,7 @@ const performList  = (z, bundle) => {
 
 module.exports = {
     key: 'order_status_changed',
-    noun: 'Order Status Change',
+    noun: 'Order',
 
     display: {
         label: "Order Status Changed",

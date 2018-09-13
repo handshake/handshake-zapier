@@ -10,7 +10,7 @@ const getOrderCategories = (z, bundle) => {
 
 module.exports = {
     key: "order_category",
-    noun: "Order Category",
+    noun: "Order",
 
     display: {
         label: "Get Order Categories",

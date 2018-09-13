@@ -19,7 +19,8 @@ const makeOrderTrigger = (eventType, label, desc, important, hidden, inputFields
         important: important,
         hidden: hidden,
         inputFields: inputFields,
-        sample: paramSample
+        sample: paramSample,
+        noun: "Order"
     });
 }
 

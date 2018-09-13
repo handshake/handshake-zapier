@@ -100,7 +100,7 @@ const make_performList = (eventType) => {
 const makeTrigger = (params) => {
     return {
         key: params.eventType,
-        noun: params.label,
+        noun: params.noun,
 
         display: {
             label: params.label,
