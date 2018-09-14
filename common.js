@@ -1,9 +1,21 @@
-const BASE_URL = process.env.BASE_URL || "https://app.handshake.com";
+const SERVER_ADDR = process.env.SERVER_ADDR || "app.handshake.com";
 const API_PATH = process.env.API_PATH || "/api/v3";
+
+const baseUrlForBundle = (bundle) => {
+    return `https://${bundle && bundle.authData.server || SERVER_ADDR}`;
+};
+
+const apiUrlForBundle = (bundle) => {
+    return baseUrlForBundle(bundle) + API_PATH;
+};
+
+const hookUrlForBundle = (bundle) => {
+    return baseUrlForBundle(bundle) + "/webhooks/zapier";
+};
 
 // Common settings across the app
 module.exports = {
-    baseURL: BASE_URL,
-    hookURL: BASE_URL + "/webhooks/zapier",
-    apiURL: BASE_URL + API_PATH,
+    baseURL: baseUrlForBundle,
+    hookURL: hookUrlForBundle,
+    apiURL: apiUrlForBundle,
 };

@@ -3,18 +3,31 @@ const customerGroup = require("../triggers/customer_group");
 const common = require("../common");
 
 const createCustomer = (z, bundle) => {
-    const responsePromise = z.request({
+    var idForApi = bundle.inputData.id ? bundle.inputData.id : Math.random().toString(36).substring(2,12);
+    
+    return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/customers`,
+        url: `${common.apiURL(bundle)}/customers`,
         body: JSON.stringify({
-            id: bundle.inputData.id,
+            id: idForApi,
             name: bundle.inputData.name,
             contact: bundle.inputData.contact,
             email: bundle.inputData.email
         })
+    }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return JSON.parse(response.content);
+      } else {
+        error = JSON.parse(response.content);
+        if(Array.isArray(error)){
+            errorMsg = error.__all__[0];
+        } else {
+            errorMsg = error.id;
+        }
+        
+        throw new Error(errorMsg);
+      } 
     });
-    return responsePromise
-        .then(response => JSON.parse(response.content));
 };
 
 module.exports = {
@@ -23,14 +36,15 @@ module.exports = {
 
     display: {
         label: "Create Customer",
-        description: "Creates a customer."
+        description: "Creates a customer.",
+        important: false
     },
 
     operation: {
         inputFields: [
-            {key: "id", label:"ID", required: true},
+            {key: "id", label:"ID", required: false},
             {key: "name", label:"Name", required: true},
-            {key: "contact", label:"Contact", required: true},
+            {key: "contact", label:"Contact", helpText: "Name of the primary contact at the customer account.",  required: true},
             {key: "email", label:"Email", required: true},
             {key: "customerGroup", label: "Customer Group", required: false, dynamic: "customerGroup.id.name"}
 

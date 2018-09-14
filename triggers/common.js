@@ -12,11 +12,12 @@ const make_performSubscribe = (eventName) => {
      */
     const subscribeHook = (z, bundle) => {
         const options = {
-            url: common.hookURL,
+            url: common.hookURL(bundle),
             method: "POST",
             body: JSON.stringify({
                 target_url: bundle.targetUrl,
                 event: eventName,
+                include_temp_auth: !!bundle.authData.include_temp_auth,
             }),
         };
 
@@ -34,7 +35,7 @@ const make_performSubscribe = (eventName) => {
  */
 const unsubscribeHook = (z, bundle) => {
     const options = {
-        url: common.hookURL,
+        url: common.hookURL(bundle),
         method: "DELETE",
         body: {target_url: bundle.targetUrl},
     };
@@ -49,63 +50,78 @@ const unsubscribeHook = (z, bundle) => {
  *  Just return the hook payload whenever one arrives.  Reaching back out to API is expensive.
  */
 const onHookReceived = (z, bundle) => {
-    return [bundle.cleanedRequest];
+    return [bundle.cleanedRequest]; 
 };
+
+const onStatusChangeHookReceived = (z, bundle) => {
+    if(bundle.inputData.status && bundle.inputData.status === bundle.cleanedRequest.status){
+        z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
+        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
+        return [bundle.cleanedRequest];
+    } else if(!bundle.inputData.status){
+        // If there is no status to filter on, then just return the request regardless)
+        z.console.log("bundle.inputData.status ===" + bundle.inputData.status);
+        z.console.log("bundle.cleanedRequest.status ===" + bundle.cleanedRequest.status);
+        return [bundle.cleanedRequest];
+    } else {
+        // If the status doesn't match the filter, but the filter exists, then don't return anything so the
+        // trigger doesn't run
+        return [];
+    }
+}
 
 
 /**
  *  Returns a function that can be used for the `performList` in a trigger.
  */
-const make_performList = (resourceName, apiToHookFunc) => {
+const make_performList = (eventType) => {
+
     /**
-     *  Poll the server to get sample data during Zap authoring.
+     *  Request sample data from the server for this event_type.
      */
-    const poll = (z, bundle) => {
-        const options = {
-            url: `${ common.apiURL }/${ resourceName }`,
+    return (z, bundle) => {
+        return z.request({
+            method: "GET",
+            url: `${common.baseURL(bundle)}/webhooks/sample/${eventType}/latest`,
             params: {
-                limit: 1,
+                include_temp_auth: !!bundle.authData.include_temp_auth,
             }
-        };
-
-        return z.request(options)
-            .then((response) => {
-                const data = z.JSON.parse(response.content)["objects"][0];
-                return [apiToHookFunc(data)];
-            });
+        }).then((response) => {
+            return response.status < 300 ? [z.JSON.parse(response.content)] : [];
+        }).catch((err) => {
+            return [];
+        });
     };
-
-    return poll;
 };
 
 /**
  *  Generate a trigger.
  */
-const makeTrigger = (resourceName, eventType, label, desc, apiToHookFunc) => {
+const makeTrigger = (params) => {
     return {
-        key: eventType,
-        noun: label,
+        key: params.eventType,
+        noun: params.noun,
 
         display: {
-            label: label,
-            description: desc,
+            label: params.label,
+            description: params.description,
+            important: params.important || false,
+            hidden: params.hidden
         },
 
         operation: {
-            inputFields: [
-            ],
+            
+            inputFields: params.inputFields,
+            
 
             type: "hook",
 
-            performSubscribe: make_performSubscribe(eventType),
+            performSubscribe: make_performSubscribe(params.eventType),
             performUnsubscribe: unsubscribeHook,
-            performList: make_performList(resourceName, apiToHookFunc),
+            performList: make_performList(params.eventType),
             perform: onHookReceived,
 
-            sample: {
-                uuid: 1,
-                name: "Test"
-            },
+            sample: params.sample,
 
             outputFields: [
             ]
@@ -116,4 +132,8 @@ const makeTrigger = (resourceName, eventType, label, desc, apiToHookFunc) => {
 
 module.exports = {
     makeTrigger: makeTrigger,
+    make_performSubscribe: make_performSubscribe,
+    make_performList: make_performList,
+    unsubscribeHook: unsubscribeHook,
+    onStatusChangeHookReceived: onStatusChangeHookReceived
 };

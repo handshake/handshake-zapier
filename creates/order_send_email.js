@@ -1,4 +1,4 @@
-const sample = require("../samples/sample_order");
+const sample = require("../samples/sample_create_order_conf");
 const common = require("../common");
 
 const sendEmail = (z, bundle) => {
@@ -13,9 +13,18 @@ const sendEmail = (z, bundle) => {
 
     return z.request({
         method: "POST",
-        url: `${common.baseURL}/api/latest/orders/${objID}/actions/send_email`,
+        url: `${common.apiURL(bundle)}/orders/${objID}/actions/send_email`,
         body: body,
-    }).then(response => JSON.parse(response.content));
+    }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        order_conf = JSON.parse(response.content)
+        order_conf.orderId = objID;
+        return order_conf;
+      } else {
+        errorMsg = JSON.parse(response.content).__all__[0];
+        throw new Error(errorMsg);
+      } 
+    });
 };
 
 module.exports = {
@@ -24,23 +33,26 @@ module.exports = {
 
     display: {
         label: "Email Order Confirmation",
-        description: "Sends an order to a specified list list of email addresses."
+        description: "Sends an order to a specified list of email addresses.",
+        important: false,
     },
 
     operation: {
         inputFields: [
             {
                 key: "id",
-                label: "ID",
+                label: "Order ID",
+                helpText: "The order must already exist in Handshake.",
                 required: true
             },
             {
                 key: "to",
-                label: "To",
+                label: "To Email",
+                required: true
             },
             {
                 key: "cc",
-                label: "CC",
+                label: "CC Email",
             }
         ],
         perform: sendEmail,

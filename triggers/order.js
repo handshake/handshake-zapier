@@ -1,55 +1,63 @@
 const common = require("../common");
 const triggers_common = require("./common");
+const sample_updated = require("../samples/sample_trigger_order_updated");
+const sample_created = require("../samples/sample_trigger_order_created");
 
-/**
- *  Converts a standard orders API response to the webhook payload.
- */
-const apiToHookFunc = (data) => {
-    let api_url = common.baseURL + data.resource_uri;
+const ORDER_STATUSES = [
+    "Confirmed",
+    "Processing",
+    "Complete",
+    "Seller review",
+];
 
-    return {
-        api_url: api_url,
-        domain: common.baseURL,
-        account_hash: "61237ASDCASASD76767767=",
-        order_id: data.objID,
-        order_uuid: data.uuid,
-        customer_id: data.customer.id,
-        customer_name: data.customer && data.customer.name || null,
-        customer_uuid: data.customer && data.customer.uuid || null,
-        status: data.status,
-        total_amount: data.totalAmount,
-        total_amount_formatted: `$${ (data.totalAmount * 100).toFixed(2) }`,
-        total_amount_in_cents: Math.round(data.totalAmount * 100),
-        num_lines: data.lines.length,
-        order_source: data.sourceType,
-        external_id: data.externalID,
-        old_status: data.status,
-        is_new: false,
-        csv_export_url: `${api_url}/actions/export?format=csv`,
-        html_export_url: `${api_url}/actions/export?format=html`,
-        category_id: null,
-        manufacturer_id: null,
-    };
-};
-
-const makeOrderTrigger = (eventType, label, desc) => {
-    return triggers_common.makeTrigger("orders", eventType, label, desc, apiToHookFunc);
+const makeOrderTrigger = (eventType, label, desc, important, hidden, inputFields, paramSample) => {
+    return triggers_common.makeTrigger({
+        resourceName: "orders",
+        eventType: eventType,
+        label: label,
+        description: desc,
+        important: important,
+        hidden: hidden,
+        inputFields: inputFields,
+        sample: paramSample,
+        noun: "Order"
+    });
 }
 
 module.exports = {
     order_created: makeOrderTrigger(
         "order_created",
-        "Order Created",
-        "Triggers when a new order is created"
+        "New Order",
+        "Triggers when a new order is created.",
+        true,
+        true,
+        [],
+        sample_created
     ),
     order_updated: makeOrderTrigger(
         "order_updated",
-        "Order Updated",
-        "Triggers when an order is updated"
+        "Updated Order",
+        "Triggers when an order is updated.",
+        false,
+        true,
+        [],
+        sample_updated
     ),
-    order_status_changed: makeOrderTrigger(
-        "order_status_changed",
-        "Order Status Changed",
-        "Triggers when an order changes status"
-    ),
+    
+    // order_status_changed: makeOrderTrigger(
+    //     "order_status_changed",
+    //     "Order Status Changed",
+    //     "Triggers when an order changes status.",
+    //     true,
+    //     false,
+    //     [
+    //         { 
+    //             key: "status", 
+    //             helpText: 'Which statuses this should trigger on.' ,
+    //             choices: ORDER_STATUSES
+    //         }
+    //     ]
+    // )
 };
+
+
